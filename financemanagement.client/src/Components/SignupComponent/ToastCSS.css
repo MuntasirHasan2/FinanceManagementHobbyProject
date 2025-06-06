@@ -1,0 +1,27 @@
+.toast-container {
+    border-left: 10px solid red;
+    border-radius: 10px;
+    background-color: #FBFBFD;
+    width: 230px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: red;
+    opacity: 0.8;
+    box-shadow: 2px 2px 2px 2px gray;
+}
+
+.toast-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

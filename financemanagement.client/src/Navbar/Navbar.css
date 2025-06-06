@@ -1,0 +1,139 @@
+.nav-container {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    background-color: var(--bg-color-nav);
+    color: var(--text-color);
+    z-index:50;
+}
+
+.nav-items{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    padding-right:100px;
+    padding-left:90px;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 30px;
+    font-size:22px;
+}
+
+.nav-logo {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.active-link{
+    border-bottom:2px solid green;
+}
+
+.hidden{
+    display:none;
+}
+
+.dark-mode-icon{
+    font-size:24px;
+    cursor:pointer;
+}
+
+.mobile-view {
+    display: none;
+}
+
+
+@media (max-width: 900px) {
+    .nav-links{
+        display:none;
+    }
+
+    .mobile-view{
+        display:block;
+        position:absolute;
+        right:20px;
+        top:20px;
+    }
+
+    .icon-hamburger {
+
+        font-size: 32px;
+        padding-top: 20px;
+        text-align: right;
+    }
+
+    .nav-links-mobile {
+        display: inline-block;
+        font-size: 24px;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        padding: 10px;
+        border-radius: 5px;
+        border: 0.5px solid;
+        border-color: var(--border-color);
+        transform: translateX(100%);
+        z-index: -100;
+        animation: fadeRightAnimation 1s ease forwards;
+    }
+
+    .nav-links-mobile > div {
+        margin-top:10px;
+    }
+
+    .nav-items {
+        padding-left: 10px;
+        padding-bottom: 10px;
+    }
+
+    .nav-logo {
+        font-size: 28px;
+        font-weight: 600;
+        max-width:200px;
+    }
+
+    .dark-mode-icon{
+        text-align:center;
+    }
+
+    .hidden-menu-mobile {
+        display: none;
+        font-size: 24px;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        padding: 10px;
+        border-radius: 5px;
+        border: 0.5px solid;
+        border-color: var(--border-color);
+        animation: fadeRightAnimationHidden 1s ease forwards;
+    }
+
+    @keyframes fadeRightAnimationHidden {
+
+        to {
+            transform: translateX(200%);
+        }
+    }
+
+}
+
+
+
+
+@keyframes fadeRightAnimation {
+    to {
+        transform:translateX(0);
+        z-index:0;
+    }
+}
+
+

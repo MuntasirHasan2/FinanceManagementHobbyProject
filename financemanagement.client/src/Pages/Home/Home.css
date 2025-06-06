@@ -1,0 +1,64 @@
+.home-container {
+    height:100vh;
+    display: flex;
+    justify-content: center;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow:hidden;
+}
+
+.home-content{
+    width:900px;
+    position:absolute;
+    top:30%;
+}
+
+.home-title {
+    width: 700px;
+    text-align: left;
+    font-size: 48px;
+    font-weight: 600;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin-bottom: 10px;
+    transform:translateX(-100%);
+    animation: fadeLeftAnimation 1s ease forwards;
+}
+
+.home-description {
+    font-size: 28px;
+    transform: translateX(-100%);
+    animation: fadeLeftAnimation 1.5s ease forwards;
+}
+
+.home-getstarted-button {
+    margin-top: 20px;
+    background-color: var(--home-btn-color);
+    width: fit-content;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    line-height: 1.8;
+    transform: translateX(-500%);
+    animation: fadeLeftAnimation 1.8s ease forwards;
+}
+
+@media (max-width: 900px){
+    .home-title{
+        font-size:32px;
+    }
+
+    .home-content {
+        max-width: 90vw;
+        overflow-y:hidden;
+        overflow-x:hidden;
+    }
+}
+
+@keyframes fadeLeftAnimation {
+    to {
+        transform: translateX(0);
+    }
+}

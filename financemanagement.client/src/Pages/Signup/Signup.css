@@ -1,0 +1,238 @@
+.signup-container {
+    min-height: 100vh;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+.container {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+}
+
+.form-signup {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid;
+    border-color: var(--border-color);
+    border-radius: 10px;
+    width: 1400px;
+    .signin-decision
+
+{
+    display: flex;
+    flex-direction: row;
+    color: #8A8B8E;
+    gap: 10px;
+    font-size: 24px;
+    font-family: 'Segoe UI';
+    margin-bottom: 30px;
+}
+
+.form-content {
+    gap: 0.2em;
+    width: 700px;
+    height: 550px;
+    background-color: #2D3748;
+    display: flex;
+    justify-content: center;
+    .form-container
+
+{
+    margin-top: 50px;
+    width: 550px;
+}
+
+label {
+    position: relative;
+    left: 0;
+    color: white;
+}
+
+
+
+.form-fields {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
+}
+
+input {
+    width: 300px;
+    height: 30px;
+    font-size: 22px;
+    color: black;
+    border: none;
+    background-color: #2D3748;
+    color: white;
+    border-bottom: 1px solid lightgray;
+    &:focus
+
+{
+    outline: none;
+}
+
+}
+
+button {
+    padding: 20px;
+    height: 40px;
+    width: 120px;
+    border: 1px solid #00B86E;
+    background-color: #00B86E;
+    /*    border-color: var(--border-color);*/
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: white;
+}
+
+.signup-loginmember {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.login-member {
+    color: #8A8B8E;
+}
+
+}
+
+.panel {
+    width: 700px;
+    height: 550px;
+    background-color: #00B86E;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    .panel-subtitle
+
+{
+    color: white;
+    font-size: 32px;
+    font-weight: 300;
+}
+
+.panel-icon {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    color: white;
+    font-size: 170px;
+    transform: translateY(100%);
+    animation: fade_up_airplane_animation 2s ease forwards;
+}
+
+.dollar-icon {
+    font-size: 32px;
+    position: absolute;
+    color: white;
+    left: 15px;
+    top: 10px;
+}
+
+}
+}
+
+.panel-title {
+    margin-top: 0px;
+    color: white;
+    font-size: 42px;
+    font-weight: 500;
+    width: 500px;
+}
+
+.signincontainer {
+    display: none;
+}
+
+.active {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.active-signin {
+    border-bottom: 1px solid #00B86E;
+    color: white;
+    pointer-events: none;
+}
+
+.Errors {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    z-index:60;
+}
+
+.Errors-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.mail-exist {
+    transform: translateY(60px);
+    opacity: 0;
+    display: none;
+}
+
+.error-active {
+    display: block;
+    animation: fade_up_error_animation 2s ease forwards;
+}
+
+@keyframes fade_up_error_animation {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+@keyframes fade_up_airplane_animation {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.email_format_error {
+    color: red;
+    font-size: 20px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+
+@media (max-width: 900px){
+
+    .container{
+        left:0;
+    }
+
+    .form-signup{
+        border-radius:0;
+        border-left:none;
+        border-right:none;
+    }
+    .form-signup .panel {
+        display: none;
+    }
+
+        .form-signup .form-content {
+            width: 100vw;
+            justify-content: unset;
+
+            padding-left:30px;
+        }
+}
