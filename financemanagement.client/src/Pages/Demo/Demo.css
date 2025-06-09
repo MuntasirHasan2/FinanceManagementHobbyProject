@@ -253,11 +253,24 @@ optgroup, select, option {
     display: inline-block;
 }
 
-.type-category .dropdown-content  div{
+.categoryBox , .occuranceBox{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.categoryText, .occuranceText {
+    white-space: nowrap;
+    width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.type-category .dropdown-content div {
     font-size: 18px;
     display: flex;
     justify-content: center;
-    flex-direction:column;
+    flex-direction: column;
 }
 
 .dropdown-content-category {
@@ -367,8 +380,8 @@ optgroup, select, option {
         display: none;
     }
 
-    .mobile-screen{
-    display:block;
+    .mobile-screen {
+        display: block;
     }
 
     .top-content {
@@ -464,7 +477,18 @@ optgroup, select, option {
     .type .recurring-type{
         width:120px;
     }
+    .categoryBox, .occuranceBox {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+    }
 
+    .categoryText, .occuranceText {
+        white-space: nowrap;
+        width: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .add-item,
     .remove-item{
         width:100px;

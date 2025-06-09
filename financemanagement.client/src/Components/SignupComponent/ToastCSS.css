@@ -25,3 +25,17 @@
     justify-content: center;
     align-items: center;
 }
+
+
+
+@media (max-width: 450px) {
+
+    .toast-container {
+        width: 180px;
+        height: 50px;
+    }
+
+    .toast-text {
+        font-size: 18px;
+    }
+}

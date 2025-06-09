@@ -1,6 +1,4 @@
-using DotNetEnv;
 var builder = WebApplication.CreateBuilder(args);
-Env.Load();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -20,7 +18,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(builder => builder
        .AllowAnyHeader()
        .AllowAnyMethod()
-       .WithOrigins("https://localhost:7091", "https://localhost:50277")
+       .WithOrigins("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net")
     );
 
 //.AllowAnyOrigin()

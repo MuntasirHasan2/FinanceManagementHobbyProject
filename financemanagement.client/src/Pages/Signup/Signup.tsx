@@ -8,6 +8,8 @@ import SignupImageSVG from '../../Components/SignupComponent/SignupBackgroundIma
 import SubmitErrorToast from '../../Components/SignupComponent/SubmitErrorToast';
 import SubmittingToast from '../../Components/SignupComponent/SubmittingToast';
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router';
+import { writeStorage } from '@rehooks/local-storage';
 
 type loginData = {
     username?: string;
@@ -26,6 +28,7 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
 
 
@@ -40,9 +43,28 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
                 submitted_toast.classList.remove("error-active");
             }, 3000)
         }
+        const signup_email_format_error = document.getElementById("email_format_error");
+        if (signup_email_format_error) {
+            if (!email.includes("@")) {
+                signup_email_format_error.classList.add('show');
 
-        const formData = new FormData(event.currentTarget);
-        const url: string = "https://localhost:7091/user/LogInAsync";
+                const invalid_mail_format_toast = document.getElementById("invalid_mail_format_toast");
+                if (invalid_mail_format_toast) {
+                    invalid_mail_format_toast.classList.add("error-active");
+
+                    setTimeout(() => {
+                        invalid_mail_format_toast.classList.remove("error-active");
+                    }, 3000)
+                }
+                return;
+
+
+            } else {
+                signup_email_format_error.classList.remove('show');
+
+            }
+        }
+        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/user/LogInAsync";
         //const url: string = "https://localhost:50530/user/LogInAsync";
         const loginData: loginData = {
             //username: username,
@@ -67,9 +89,13 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
                 const cookies = new Cookies();
                 cookies.set('userid', data.id, { path: '/' });
                 cookies.set('username', data.username, { path: '/' });
+                writeStorage('userid', data.id);
+                writeStorage('username', data.username);
                 console.log(cookies.get('userid'));
                 console.log(cookies.get('username'));
                 setIsLoggedIn(!isLoggedIn);
+                navigate("/userpage");
+
             } else {
                 console.log("not ok");
             }
@@ -138,7 +164,7 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
         }
 
 
-        const url: string = "https://localhost:7091/user/CreateAccountAsync";
+        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/user/CreateAccountAsync";
         // const url: string = "https://localhost:7083/user/CreateAccountAsync";
         try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -185,6 +211,9 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
                     console.log(cookies.get('userid'));
                     console.log(cookies.get('username'));
                     setIsLoggedIn(!isLoggedIn);
+                    writeStorage('userid', data.id);
+                    writeStorage('username', data.username);
+                    navigate("/userpage");
                 }
             } else {
                 console.log("not ok");
@@ -291,19 +320,19 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
 
 
                                     <div>
-                                        <div>
-                                            <label htmlFor="email">Email</label>
+                                        <div className="label">
+                                                <label  htmlFor="email">Email</label>
                                         </div>
                                         <div>
                                             <input type="text" name="email" value={email} placeholder="Enter your email" autoComplete="false"
                                                 onChange={(e) => setEmail(e.target.value)} />
                                         </div>
-                                        <span id="email_format_error">Invalid email</span>
+                                            <span className="email_format_error" id="email_format_error">Invalid email</span>
                                     </div>
 
                                     <div>
-                                        <div>
-                                            <label htmlFor="password">Password</label>
+                                            <div className="label">
+                                                <label htmlFor="password">Password</label>
                                         </div>
                                         <input type="password" name="password" value={password} placeholder="Enter your Password" autoComplete="false"
                                             onChange={(e) => setPassword(e.target.value)} />
@@ -323,7 +352,7 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
                                     className={isSignInActive ? "signincontainer" : "signincontainer active"}
                                 >
                                     <div>
-                                        <div>
+                                            <div className="label">
                                             <label htmlFor="username">FULL NAME</label>
                                         </div>
                                         <input type="text" name="username" value={username} placeholder="Enter your full name" autoComplete="false"
@@ -331,7 +360,7 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
                                     </div>
 
                                     <div>
-                                        <div>
+                                            <div className="label">
                                             <label htmlFor="email">Email</label>
                                         </div>
                                         <div>
@@ -346,7 +375,7 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
                                     </div>
 
                                     <div>
-                                        <div>
+                                            <div className="label">
                                             <label htmlFor="password">Password</label>
                                         </div>
                                         <input type="password" name="password" value={password} placeholder="Enter your Password" autoComplete="false"

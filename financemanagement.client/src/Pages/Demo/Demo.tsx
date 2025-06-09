@@ -6,7 +6,6 @@ import DarkModeVariable from '../../Navbar/DarkModeVariable';
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoMdAddCircle } from "react-icons/io";
 import { IoIosCloseCircle } from "react-icons/io";
-import { FaSave } from "react-icons/fa";
 import { MdNavigateNext } from "react-icons/md";
 import { GrFormPrevious } from "react-icons/gr";
 import { MdEdit } from "react-icons/md";
@@ -20,14 +19,6 @@ export default function Demo() {
     }, [])
 
 
-    //let data3 = [
-    //    ["Task", "Hours per Day"],
-    //    ["Work", 9],
-    //    ["Eat", 2],
-    //    ["Commute", 2],
-    //    ["Watch TV", 2],
-    //    ["Sleep", 7],
-    //];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let options: any;
 
@@ -81,10 +72,7 @@ export default function Demo() {
         };
     }
 
-    type Transaction = {
-        UserId: number;
-        BulkSQLString: string;
-    }
+
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -92,7 +80,6 @@ export default function Demo() {
     const [category, setCategory] = useState("");
     const [newCategory, setNewCategory] = useState("");
     const [occurranceType, setOccurranceType] = useState("Occurance Type");
-    const [recurringType, setRecurringType] = useState("Recurring Type");
 
     const [pieWidth, setPieWidth] = useState(400);
 
@@ -108,7 +95,7 @@ export default function Demo() {
 
     const [categoryList, setCategoryList] = useState<string[]>([]);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [pieData, setPieData] = useState(new Map());
+    const [pieData, ] = useState(new Map());
     const [transactionList, setTransactionList] = useState<string[]>([]);
     //const [categoryList, setCategoryList] = useState(new Map());
 
@@ -143,32 +130,105 @@ export default function Demo() {
 
     async function fetchUserData() {
 
-        const url: string = "https://localhost:7091/Transaction/GetTransaction";
-        const transactionSQL: string = "";
 
 
-
-        const bodyData: Transaction = {
-            UserId: 1,
-            BulkSQLString: transactionSQL,
-        }
-
-        try {
-            const response = await fetch(url, {
-                //mode: 'no-cors',
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                //body: formData,
-                body: JSON.stringify(bodyData),
-            }
-            );
-            //const data = response.json();
-            if (response.ok) {
-                const data = await response.json();
 
                 while (allData.length > 0) {
                     allData.pop();
                 }
+                const data = [
+                    {
+                        transactionId: 1,
+                        name: "Phone Case",
+                        category: "Accessorires",
+                        description: "Need new phone cover",
+                        amount: 75.50,
+                        month: 5,
+                        year: 2025
+                    },
+                    {
+                        transactionId: 2,
+                        name: "Headset",
+                        category: "Entertaintment",
+                        description: "Headset broken need new",
+                        amount: 45.00,
+                        month: 5,
+                        year: 2025
+                    },
+                    {
+                        transactionId: 3,
+                        name: "Sam BirthDay",
+                        category: "Entertainment",
+                        description: "Gift for friend Sam",
+                        amount: 120.75,
+                        month: 4,
+                        year: 2025
+                    },
+                    {
+                        transactionId: 4,
+                        name: "Dinner Out",
+                        category: "Entertainment",
+                        description: "Dinner with friends at a restaurant",
+                        amount: 89.20,
+                        month: 5,
+                        year: 2025
+                    },
+                    {
+                        transactionId: 5,
+                        name: "Online Course",
+                        category: "Education",
+                        description: "Paid for an online programming course",
+                        amount: 199.99,
+                        month: 3,
+                        year: 2025
+                    }, {
+                        transactionId: 6,
+                        name: "Concert Ticket",
+                        category: "Entertainment",
+                        description: "Attended live concert event",
+                        amount: 150.00,
+                        month: 5,
+                        year: 2025
+                    },
+                    {
+                        transactionId: 7,
+                        name: "New Shoes",
+                        category: "Accessories",
+                        description: "Bought a pair of running shoes",
+                        amount: 90.00,
+                        month: 4,
+                        year: 2025
+                    },
+                    {
+                        transactionId: 8,
+                        name: "Car Wash",
+                        category: "Transport",
+                        description: "Full exterior and interior cleaning",
+                        amount: 30.00,
+                        month: 5,
+                        year: 2025
+                    },
+                    {
+                        transactionId: 9,
+                        name: "Pet Supplies",
+                        category: "Miscellaneous",
+                        description: "Bought food and toys for the dog",
+                        amount: 65.50,
+                        month: 3,
+                        year: 2025
+                    },
+                    {
+                        transactionId: 10,
+                        name: "Laptop Repair",
+                        category: "Electronics",
+                        description: "Replaced faulty laptop fan",
+                        amount: 110.00,
+                        month: 2,
+                        year: 2025
+                    }
+
+                ];
+
                 for (let i = 0; i < data.length; i++) {
 
                 const transaction_id: number = data[i].transactionId;
@@ -176,8 +236,7 @@ export default function Demo() {
                 const transaction_category: string = data[i].category;
                 const transaction_description: string = data[i].description;
                 const transaction_amount: number = data[i].amount;
-                //const transaction_recurring_type: string = data[i].recurring_type;
-                //const transaction_occorance_type: string = data[i].occorance_type;
+
                 const transaction_month: number = data[i].month;
                 const transaction_year: number = data[i].year;
 
@@ -201,31 +260,45 @@ export default function Demo() {
 
 
 
-            } else {
-                console.log("not ok");
-            }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            console.log("Error :", error.message);
-        }
-        const url_recurring: string = "https://localhost:7091/Transaction/GetTransactionRecurring";
 
-        try {
-            const response = await fetch(url_recurring, {
-                //mode: 'no-cors',
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                //body: formData,
-                body: JSON.stringify(bodyData),
-            }
-            );
-            //const data = response.json();
-            if (response.ok) {
-                const response_data = await response.json();
+
+
+
 
                 while (recurringExpense.length > 0) {
                     recurringExpense.pop();
                 }
+                const response_data = [
+                    {
+                        transactionId: 101,
+                        name: "Electricity Bill",
+                        category: "Utilities",
+                        description: "Electricity",
+                        amount: 230.45
+                    },
+                    {
+                        transactionId: 102,
+                        name: "Netflix Subscription",
+                        category: "Entertainment",
+                        description: "Monthly streaming service",
+                        amount: 15.99
+                    },
+                    {
+                        transactionId: 103,
+                        name: "Coffee Shop",
+                        category: "Food",
+                        description: "Morning coffee and pastry",
+                        amount: 8.75
+                    },
+                    {
+                        transactionId: 104,
+                        name: "Water Bill",
+                        category: "Utilities",
+                        description: "Water necessity",
+                        amount: 34.20
+                    }
+                ];
+
                 for (let i = 0; i < response_data.length; i++) {
 
                     const transaction_id: number = response_data[i].transactionId;
@@ -259,13 +332,6 @@ export default function Demo() {
 
 
 
-            } else {
-                console.log("not ok");
-            }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            console.log("Error :", error.message);
-        }
 
 
        
@@ -312,7 +378,7 @@ export default function Demo() {
         if (occurranceType == "One Off") {
             temp_recurring = "Not Applicable";
         } else {
-            temp_recurring = recurringType;
+            temp_recurring ="";
         }
         const newData: expenses_data = {
             transaction_id:-1,
@@ -350,7 +416,32 @@ export default function Demo() {
 
 
 
-    function removeExponse(index: string, event: Event) {
+    function removeExponse(index: string,event: React.MouseEvent<HTMLElement>) {
+            const i: number = Number(index);
+            if (i != -1) {
+                const temp_sql: string = "DELETE FROM Transaction WHERE id = " + i + " ; ";
+                addToQueue(temp_sql);
+            }
+            const temp_target = (event.target as HTMLInputElement);
+            if (temp_target) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                const transactionElement: HTMLElement = temp_target.parentElement.parentElement;
+                if (transactionElement) {
+
+                    const temp_category_name: string = transactionElement.getElementsByClassName("category")[0].innerHTML;
+                    const temp_amount: number = Number(transactionElement.getElementsByClassName("amount")[0].innerHTML);
+                    removeFromPieChart(temp_category_name, temp_amount);
+                }
+            
+            const updatedExpense = [...expense.slice(0, i), ...expense.slice(i + 1)];
+            setExpense(updatedExpense);
+        }
+
+    }
+
+
+    function removeExponseMobile(index: string, event: React.MouseEvent<HTMLElement>) {
         const i: number = Number(index);
         if (i != -1) {
             const temp_sql: string = "DELETE FROM Transaction WHERE id = " + i + " ; ";
@@ -361,19 +452,22 @@ export default function Demo() {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             const transactionElement: HTMLElement = temp_target.parentElement.parentElement;
+            // @ts-expect-error
+            const transactionElementAmount: HTMLElement = temp_target.parentElement?.parentElement?.previousElementSibling;
 
-            if (transactionElement) {
+            if (transactionElement && transactionElementAmount) {
+
                 const temp_category_name: string = transactionElement.getElementsByClassName("category")[0].innerHTML;
-                const temp_amount: number = Number(transactionElement.getElementsByClassName("amount")[0].innerHTML);
+                const temp_amount: number = Number(transactionElementAmount.getElementsByClassName("amount")[0].innerHTML);
+                console.log(temp_category_name);
+                console.log(temp_amount);
                 removeFromPieChart(temp_category_name, temp_amount);
             }
+            console.log("index : ", i);
+            const updatedExpense = [...expense.slice(0, i), ...expense.slice(i + 1)];
+            setExpense(updatedExpense);
         }
 
-
-        //console.log("Eventt", event.target.parentElement.parentElement);
-        //removeFromPieChart();
-        const updatedExpense = [...expense.slice(0, i), ...expense.slice(i + 1)];
-        setExpense(updatedExpense);
     }
 
 
@@ -389,6 +483,21 @@ export default function Demo() {
             } else {
 
             type.classList.add("show-dropdown");
+            }
+        }
+
+
+    }
+
+    function showTypeMobile() {
+        const type = document.getElementById("type-mobile");
+        if (type) {
+
+            if (type.classList.contains("show-dropdown")) {
+                type.classList.remove("show-dropdown");
+            } else {
+
+                type.classList.add("show-dropdown");
             }
         }
 
@@ -414,20 +523,15 @@ export default function Demo() {
             return;
         }
         updateCategoryList(newCategory);
-        AddToCategoryDB(newCategory);
+        //AddToCategoryDB(newCategory);
         setNewCategory("");
     }
 
     function updatePieChart() {
-        //categoryList.forEach((element: ListCategory) => {
-        //    data = [];
-        //    const temp = [element.name, element.amount];
-        //    data.push(temp);
-        //})
+
         while (data.length > 0) {
             data.pop();
         }
-        //setData([...data]);
         data.push(["Task", "Hours per Day"]); 
         pieData.clear();
         let sum: number = 0;
@@ -453,7 +557,6 @@ export default function Demo() {
                 sum = sum + value.amount;
             }
         })
-
         pieData.forEach((val: string, key: number) => {
             const temp = [key, val];
             data.push(temp);
@@ -508,100 +611,37 @@ export default function Demo() {
         setTransactionList(transactionList);
     }
 
-    async function SaveToDatabase() {
-        const url: string = "https://localhost:7091/Transaction/BulkRequestTransaction";
-        let transactionSQL: string = "";
-        transactionList.forEach((value: string) => {
-            transactionSQL = transactionSQL + value;
-        })
 
-        console.log(transactionSQL);
 
-        const bodyData: Transaction =  {
-            UserId: 1,
-            BulkSQLString: transactionSQL,
-        }
 
-        try {
-            const response = await fetch(url, {
-                //mode: 'no-cors',
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                //body: formData,
-                body: JSON.stringify(bodyData),
-            }
-            );
-            //const data = response.json();
-            console.log("Reponse : ", response);
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data);
-            } else {
-                console.log("not ok");
-            }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            console.log("Error :", error.message);
-        }
-        //"INSERT INTO Transaction(user_id,category_name,name,description,amount,month,year,occorance_type,recurring_type) ";
-    }
-    //InitializePieChart();
-
-    type CategoryDataType = {
-        UserId: number;
-        name: string;
-    }
-
-    async function AddToCategoryDB(categoryToAdd: string) {
-        const url: string = "https://localhost:7091/Category/AddCategory";
-        const categoryData: CategoryDataType = {
-            //username: username,
-            UserId: 1,
-            name: categoryToAdd,
-        }
-        try {
-            const response = await fetch(url, {
-                //mode: 'no-cors',
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                //body: formData,
-                body: JSON.stringify(categoryData),
-            }
-            );
-            //const data = response.json();
-            console.log("Reponse : ", response);
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data);
-            } else {
-                console.log("not ok");
-            }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            console.log("Error :", error.message);
-        }
-    }
 
     async function GetCategory() {
-        const url: string = "https://localhost:7091/Category/GetCategory";
-        const categoryData: CategoryDataType = {
-            //username: username,
-            UserId: 1,
-            name: "",
-        }
-        try {
-            const response = await fetch(url, {
-                //mode: 'no-cors',
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                //body: formData,
-                body: JSON.stringify(categoryData),
-            }
-            );
+
+
             //const data = response.json();
 
-            if (response.ok) {
-                const data = await response.json();
+        const data = [
+            {
+                name:"Accessories",
+            },
+            {
+               name:"Entertainment",
+            },
+            {
+            name: "Education",
+            },
+            {
+            name: "Transport",
+            },
+            {
+            name: "Miscellaneous",
+            },
+            {
+            name: "Electronics"
+            }
+
+            ];
+
                 while (categoryList.length > 0) {
                     categoryList.pop();
                 }
@@ -609,13 +649,7 @@ export default function Demo() {
                     categoryList.push(data[i].name)
                 }
                 setCategoryList([...categoryList]);
-            } else {
-                console.log("not ok");
-            }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            console.log("Error :", error.message);
-        }
+
     }
     function PreviousMonth() {
         let temp_month: number = month;
@@ -764,9 +798,7 @@ export default function Demo() {
                     </div>
                 </div>
                 <div className="expenses">
-                    <div className="expenses-tracking">Expense Tracking  <span
-                        style={{ fontSize: '20px'}}
-                        onClick={SaveToDatabase}> Save Changes  <FaSave /></span></div>
+                    <div className="expenses-tracking">Expense Tracking  </div>
                     <div className="expenses-table">
                         <table className="large-screen">
                             <thead>
@@ -803,7 +835,8 @@ export default function Demo() {
 
                                             <div
                                                 onClick={showCategoryType}
-                                            >{category!=""?category:"Select Category"} <IoMdArrowDropdownCircle /> </div>
+                                                className="categoryBox"
+                                            > <span className="categoryText">{category!=""?category:"Select Category"}</span> <span><IoMdArrowDropdownCircle /></span>  </div>
 
                                             <div className="dropdown-content-category" id="category_type">
 
@@ -851,7 +884,8 @@ export default function Demo() {
 
                                             <div
                                                 onClick={showType}
-                                            >{occurranceType} <IoMdArrowDropdownCircle /> </div>
+                                                className="occuranceBox"
+                                            ><span className="occuranceText">{occurranceType} </span><span><IoMdArrowDropdownCircle /></span> </div>
                                             
                                             <div className="dropdown-content" id="type">
                                                 <div
@@ -867,36 +901,6 @@ export default function Demo() {
                                         </div>
                                     </td>
 
-                                    {/*<td>*/}
-                                    {/*    <div className="recurring-type">*/}
-                                    {/*        <div*/}
-                                    {/*            onClick={showRecurringType}*/}
-                                    {/*            className={occurranceType === "One Off"?"hidden":"" }*/}
-                                    {/*        >{recurringType} <IoMdArrowDropdownCircle /></div>*/}
-
-                                    {/*        <div className="dropdown-content" id="recurringType">*/}
-
-                                    {/*            <div*/}
-                                    {/*                onClick={() => setRecurringType("Every Day")}>*/}
-                                    {/*                Every Day*/}
-                                    {/*            </div>*/}
-                                    {/*            <div*/}
-                                    {/*                onClick={() => setRecurringType("Every Week")}>*/}
-                                    {/*                Every Week*/}
-                                    {/*            </div>*/}
-                                    {/*            <div*/}
-                                    {/*                onClick={() => setRecurringType("Every Month")}>*/}
-                                    {/*                Every Month*/}
-                                    {/*            </div>*/}
-                                    {/*            <div*/}
-                                    {/*                onClick={() => setRecurringType("Every Year Same Date")}>*/}
-                                    {/*                Every Year Same Date*/}
-                                    {/*            </div>*/}
-
-                                    {/*        </div>*/}
-
-                                    {/*    </div>*/}
-                                    {/*</td>*/}
 
                                     <td>
                                         <div className="add-item"
@@ -938,21 +942,17 @@ export default function Demo() {
 
                                         <td>
                                             <div className="type">
-                                                {element.occuranceType}
+                                                One-Off
                                             </div>
                                         </td>
 
-                                        {/*<td>*/}
-                                        {/*    <div className="recurring-type">*/}
-                                        {/*        {element.recurringType}*/}
-                                        {/*    </div>*/}
-                                        {/*</td>*/}
+
 
                                         <td>
                                             <div
                                                 className="remove-item"
                                                 id={index.toString()}
-                                                onClick={(e) => removeExponse(e.currentTarget.id,e)}>
+                                                onClick={(e) => removeExponse(e.currentTarget.id, e)}>
                                                 Remove
                                             </div>
                                         </td>
@@ -989,15 +989,10 @@ export default function Demo() {
 
                                         <td>
                                             <div className="type">
-                                                {element.occuranceType}
+                                                Every Month
                                             </div>
                                         </td>
 
-                                        {/*<td>*/}
-                                        {/*    <div className="recurring-type">*/}
-                                        {/*        {element.recurringType}*/}
-                                        {/*    </div>*/}
-                                        {/*</td>*/}
 
                                         <td>
                                             <div
@@ -1111,10 +1106,10 @@ export default function Demo() {
                                         <div className="type">
 
                                             <div
-                                                onClick={showType}
+                                                onClick={showTypeMobile}
                                             >{occurranceType} <IoMdArrowDropdownCircle /> </div>
 
-                                            <div className="dropdown-content" id="type">
+                                            <div className="dropdown-content" id="type-mobile">
                                                 <div
                                                     onClick={() => setOccurranceType("One Off")}>
                                                     One-off
@@ -1143,22 +1138,15 @@ export default function Demo() {
                                 {expense.map((element: expenses_data, index: number) =>
                                 (
                                     <>
-                                    <tr
+                                        <tr
                                             key={index}
-                                            onClick={(event) => {
-                                                const temp_target = (event.target as HTMLInputElement);
-                                                if (temp_target) {
-                                                    const temp_nextElement: HTMLElement = temp_target.parentElement.parentElement.nextElementSibling;
-                                                    if (temp_nextElement) {
-                                                        if (temp_nextElement.classList.contains("hidden")) {
-                                                            temp_nextElement.classList.remove("hidden");
-                                                        } else {
-                                                            temp_nextElement.classList.add("hidden");
-                                                        }
-                                                    }
-                                                }
+                                            onClick={(event: React.MouseEvent<HTMLTableRowElement>) => {
+                                                const row = event.currentTarget; // HTMLTableRowElement – never null
+                                                const nextRow = row.nextElementSibling as HTMLElement | null;
 
-                                            }}>
+                                                if (nextRow) nextRow.classList.toggle('hidden');
+                                            }}
+                                        >
                                         <td>
                                             <div className="name">
                                                 {element.name}
@@ -1195,7 +1183,7 @@ export default function Demo() {
                                                 <div
                                                     className="remove-item"
                                                     id={index.toString()}
-                                                    onClick={(e) => removeExponse(e.currentTarget.id, e)}>
+                                                    onClick={(e) => removeExponseMobile(e.currentTarget.id, e)}>
                                                     Remove
                                                 </div>
                                             </td>
@@ -1207,22 +1195,15 @@ export default function Demo() {
                                 {recurringExpense.map((element: expenses_data, index: number) =>
                                 (
                                     <>
-                                    <tr
+                                        <tr
                                             key={index}
-                                            onClick={(event) => {
-                                                const temp_target = (event.target as HTMLInputElement);
-                                                if (temp_target) {
-                                                    const temp_nextElement: HTMLElement = temp_target.parentElement.parentElement.nextElementSibling;
-                                                    if (temp_nextElement) {
-                                                        if (temp_nextElement.classList.contains("hidden")) {
-                                                            temp_nextElement.classList.remove("hidden");
-                                                        } else {
-                                                            temp_nextElement.classList.add("hidden");
-                                                        }
-                                                    }
-                                                }
+                                            onClick={(event: React.MouseEvent<HTMLTableRowElement>) => {
+                                                const row = event.currentTarget; // HTMLTableRowElement – never null
+                                                const nextRow = row.nextElementSibling as HTMLElement | null;
 
-                                            } }>
+                                                if (nextRow) nextRow.classList.toggle('hidden');
+                                            }}
+                                        >
                                         <td>
                                             <div className="name">
                                                 {element.name}
@@ -1259,8 +1240,8 @@ export default function Demo() {
                                         <td>
                                             <div
                                                 className="remove-item"
-                                                id={index.toString()}
-                                                onClick={(e) => removeExponse(e.currentTarget.id, e)}>
+                                                    id={index.toString()}
+                                                    onClick={(e) => removeExponseMobile(e.currentTarget.id, e)}>
                                                 Remove
                                             </div>
                                         </td>

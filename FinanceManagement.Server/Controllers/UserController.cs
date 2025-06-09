@@ -39,7 +39,7 @@ namespace FinanceManagement.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> LogInAsync(User loginData)
         {
-            string email = loginData.email;
+            string? email = loginData.email;
             string? password = loginData.password;
             string passwordHash = "";
             string username = "";
@@ -47,7 +47,7 @@ namespace FinanceManagement.Server.Controllers
             var sql = "SELECT * FROM User where email ='" + email + "'";
 
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5135/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -98,14 +98,17 @@ namespace FinanceManagement.Server.Controllers
         {
 
             string? username = loginData.username;
-            string email = loginData.email;
+            string? email = loginData.email;
             string? password = loginData.password;
-
+            var existJSON2 = new User
+            {
+                message = "test here",
+            };
             try
             {
 
                 HttpClient httpClient = new();
-                using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5135/configuration/");
+                using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
 
                 response.EnsureSuccessStatusCode();
 

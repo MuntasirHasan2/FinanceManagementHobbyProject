@@ -20,7 +20,7 @@ namespace FinanceManagement.Server.Controllers
             List<Transaction> ListTransaction = new List<Transaction>();
 
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5135/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -76,6 +76,7 @@ namespace FinanceManagement.Server.Controllers
                 var obj_error = new Category
                 {
                     Id = -1,
+                    Name = ex.Message,
                     Message = "Error",
                 };
                 return Ok(obj_error);
@@ -93,7 +94,7 @@ namespace FinanceManagement.Server.Controllers
             List<Transaction> ListTransaction = new List<Transaction>();
 
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5135/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -149,6 +150,7 @@ namespace FinanceManagement.Server.Controllers
                 var obj_error = new Category
                 {
                     Id = -1,
+                    Name = ex.Message,
                     Message = "Error",
                 };
                 return Ok(obj_error);
@@ -171,7 +173,7 @@ namespace FinanceManagement.Server.Controllers
             List<Transaction> ListTransaction = new List<Transaction>();
 
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5135/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -251,7 +253,7 @@ namespace FinanceManagement.Server.Controllers
             List<Transaction> ListTransaction = new List<Transaction>();
 
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5135/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -323,9 +325,9 @@ namespace FinanceManagement.Server.Controllers
         public async Task<IActionResult> BulkRequestTransaction(Transaction transaction)
         {
 
-            string sql = transaction.BulkSQLString;
+            string? sql = transaction.BulkSQLString;
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5135/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 

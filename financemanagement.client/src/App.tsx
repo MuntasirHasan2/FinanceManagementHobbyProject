@@ -4,7 +4,7 @@ import Navbar from '../src/Navbar/Navbar';
 import Home from '../src/Pages/Home/Home';
 import Signup from '../src/Pages/Signup/Signup';
 import Demo from '../src/Pages/Demo/Demo';
-import Userpage from '../src/Pages/UserPage/userpage';
+import Userpage from '../src/Pages/UserPage/Userpage';
 import { useState } from "react";
 import { BrowserRouter } from 'react-router';
 import DarkModeVariable from './Navbar/DarkModeVariable';

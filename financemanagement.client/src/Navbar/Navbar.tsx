@@ -1,3 +1,4 @@
+
 import './Navbar.css';
 import { Link, useLocation, useNavigate } from "react-router";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -5,15 +6,18 @@ import { IoMdSunny } from "react-icons/io";
 import { IoMdMoon } from "react-icons/io";
 import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
+import { useLocalStorage, deleteFromStorage } from '@rehooks/local-storage';
+
 type props = {
     isDark: boolean;
-    updateDarkMode: Function;
+    updateDarkMode: (value: boolean) => void;
     isLoggedIn: boolean;
 }
 
 export default function Navbar({ isDark, updateDarkMode,isLoggedIn }: props) {
     const location = useLocation();
     const navigate = useNavigate();
+    const [local_username] = useLocalStorage('username');
     useEffect(() => {
         checkIfLogIn();
     }, [])
@@ -28,11 +32,15 @@ export default function Navbar({ isDark, updateDarkMode,isLoggedIn }: props) {
     function checkIfLogIn() {
         const cookies = new Cookies();
         const userId = cookies.get('userid')
-        const temp_username = cookies.get('username');
+       // const temp_username = cookies.get('username');
         console.log("user id ", userId);
-        if (userId != undefined) {
+        console.log("local username", local_username);
+        if (local_username != undefined) {
             setIsSignIn(true);
-            setUsername(temp_username.toString());
+            if (local_username) {
+
+            setUsername(local_username.toString());
+            }
         } else {
             setIsSignIn(false);
             setUsername("");
@@ -44,8 +52,9 @@ export default function Navbar({ isDark, updateDarkMode,isLoggedIn }: props) {
         const cookies = new Cookies();
         cookies.remove('userid');
         cookies.remove('username');
+        deleteFromStorage('username');
+        deleteFromStorage('userid');
         checkIfLogIn();
-       
         navigate("/");
     }
     const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
@@ -96,8 +105,15 @@ export default function Navbar({ isDark, updateDarkMode,isLoggedIn }: props) {
                               to="/">Home</Link>
                       </div>
                       <div>
-                          <Link className={location.pathname == "/demo" ? "active-link" : ""}
-                              to="/demo">Guest Demo</Link>
+                          <span className={isSignIn ? "hidden" : ""}>
+                              <Link className={location.pathname == "/demo" ? "active-link" : ""}
+                                  to="/demo">Guest Demo</Link>
+                          </span>
+                          <span className={isSignIn ? "" : "hidden"}>
+                              <Link className={location.pathname == "userpage" ? "active-link" : ""}
+                                  to="/userpage">Welcome {username}</Link>
+
+                          </span>
                       </div>
                       <div>
                           <Link className={location.pathname == "/signin" ? "active-link" : ""}

@@ -10,11 +10,19 @@ import { FaSave } from "react-icons/fa";
 import { MdNavigateNext } from "react-icons/md";
 import { GrFormPrevious } from "react-icons/gr";
 import { MdEdit } from "react-icons/md";
+import { useNavigate } from 'react-router';
+//import Cookies from 'universal-cookie';
+import { useLocalStorage } from '@rehooks/local-storage';
+
 export default function User() {
+    const navigate = useNavigate();
+    const [local_username] = useLocalStorage('username');
+    const [local_userid] = useLocalStorage('userid');
 
     const sharedValue = useContext(DarkModeVariable);
     const listMonth: string[] = ["January", "Febraury", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     useEffect(() => {
+        checkIfLogIn();
         fetchUserData();
         console.log("I am fired");
     }, [])
@@ -92,7 +100,6 @@ export default function User() {
     const [category, setCategory] = useState("");
     const [newCategory, setNewCategory] = useState("");
     const [occurranceType, setOccurranceType] = useState("Occurance Type");
-    const [recurringType, setRecurringType] = useState("Recurring Type");
 
     const [pieWidth, setPieWidth] = useState(400);
 
@@ -108,7 +115,7 @@ export default function User() {
 
     const [categoryList, setCategoryList] = useState<string[]>([]);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [pieData, setPieData] = useState(new Map());
+    const [pieData, ] = useState(new Map());
     const [transactionList, setTransactionList] = useState<string[]>([]);
     //const [categoryList, setCategoryList] = useState(new Map());
 
@@ -133,23 +140,22 @@ export default function User() {
         year: number;
     }
 
-    useEffect((updatePieChart), [income]);
 
 
     const [expense, setExpense] = useState<expenses_data[]>([]);
     const [recurringExpense, setRecurringExpense] = useState<expenses_data[]>([]);
     const [allData, setAllData] = useState<expenses_data[]>([]);
 
-
+    const [userId, setUserId] = useState(1);
     async function fetchUserData() {
 
-        const url: string = "https://localhost:7091/Transaction/GetTransaction";
+        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Transaction/GetTransaction";
         const transactionSQL: string = "";
 
 
 
         const bodyData: Transaction = {
-            UserId: 1,
+            UserId: userId,
             BulkSQLString: transactionSQL,
         }
 
@@ -208,7 +214,7 @@ export default function User() {
         } catch (error: any) {
             console.log("Error :", error.message);
         }
-        const url_recurring: string = "https://localhost:7091/Transaction/GetTransactionRecurring";
+        const url_recurring: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Transaction/GetTransactionRecurring";
 
         try {
             const response = await fetch(url_recurring, {
@@ -271,6 +277,33 @@ export default function User() {
 
     }
 
+    //function checkIfLogIn() {
+    //    const cookies = new Cookies();
+    //    const userId = cookies.get('userid')
+    //    console.log("user id ", userId);
+    //    if (userId != undefined) {
+    //        setUserId(Number(userId));
+    //    } else {
+
+    //        setUserId(1);
+    //        navigate("/");
+    //    }
+
+    //}
+
+    function checkIfLogIn() {
+        console.log("user id ", local_userid);
+        if (local_username != undefined) {
+            if (local_username) {
+                setUserId(Number(local_userid));
+            }
+        } else {
+            setUserId(1);
+            navigate("/");
+        }
+
+    }
+
     function InitializeTable() {
         const screen_size: number = window.screen.width;
         if (screen_size < 900) {
@@ -312,7 +345,7 @@ export default function User() {
         if (occurranceType == "One Off") {
             temp_recurring = "Not Applicable";
         } else {
-            temp_recurring = recurringType;
+            temp_recurring ="";
         }
         const newData: expenses_data = {
             transaction_id: -1,
@@ -350,7 +383,7 @@ export default function User() {
 
 
 
-    function removeExponse(index: string, event: Event) {
+    function removeExponse(index: string, event: React.MouseEvent<HTMLElement>) {
         const i: number = Number(index);
         if (i != -1) {
             const temp_sql: string = "DELETE FROM Transaction WHERE id = " + i + " ; ";
@@ -509,7 +542,7 @@ export default function User() {
     }
 
     async function SaveToDatabase() {
-        const url: string = "https://localhost:7091/Transaction/BulkRequestTransaction";
+        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Transaction/BulkRequestTransaction";
         let transactionSQL: string = "";
         transactionList.forEach((value: string) => {
             transactionSQL = transactionSQL + value;
@@ -518,7 +551,7 @@ export default function User() {
         console.log(transactionSQL);
 
         const bodyData: Transaction = {
-            UserId: 1,
+            UserId: userId,
             BulkSQLString: transactionSQL,
         }
 
@@ -553,10 +586,10 @@ export default function User() {
     }
 
     async function AddToCategoryDB(categoryToAdd: string) {
-        const url: string = "https://localhost:7091/Category/AddCategory";
+        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Category/AddCategory";
         const categoryData: CategoryDataType = {
             //username: username,
-            UserId: 1,
+            UserId: userId,
             name: categoryToAdd,
         }
         try {
@@ -583,10 +616,10 @@ export default function User() {
     }
 
     async function GetCategory() {
-        const url: string = "https://localhost:7091/Category/GetCategory";
+        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Category/GetCategory";
         const categoryData: CategoryDataType = {
             //username: username,
-            UserId: 1,
+            UserId: userId,
             name: "",
         }
         try {
@@ -692,6 +725,7 @@ export default function User() {
             }
         }
     }
+    useEffect((updatePieChart), [income]);
 
     return (
         <>
@@ -1147,7 +1181,11 @@ export default function User() {
                                             key={index}
                                             onClick={(event) => {
                                                 const temp_target = (event.target as HTMLInputElement);
-                                                if (temp_target) {
+                                                if (temp_target
+                                                    &&
+                                                    temp_target.parentElement &&
+                                                    temp_target.parentElement.parentElement &&
+                                                    temp_target.parentElement.parentElement.nextElementSibling instanceof HTMLElement) {
                                                     const temp_nextElement: HTMLElement = temp_target.parentElement.parentElement.nextElementSibling;
                                                     if (temp_nextElement) {
                                                         if (temp_nextElement.classList.contains("hidden")) {
@@ -1211,7 +1249,10 @@ export default function User() {
                                             key={index}
                                             onClick={(event) => {
                                                 const temp_target = (event.target as HTMLInputElement);
-                                                if (temp_target) {
+                                                if (temp_target &&
+                                                    temp_target.parentElement &&
+                                                    temp_target.parentElement.parentElement &&
+                                                    temp_target.parentElement.parentElement.nextElementSibling instanceof HTMLElement) {
                                                     const temp_nextElement: HTMLElement = temp_target.parentElement.parentElement.nextElementSibling;
                                                     if (temp_nextElement) {
                                                         if (temp_nextElement.classList.contains("hidden")) {
