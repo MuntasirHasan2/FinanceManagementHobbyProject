@@ -64,7 +64,7 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
 
             }
         }
-        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/user/LogInAsync";
+        const url: string = "https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/user/LogInAsync";
         //const url: string = "https://localhost:50530/user/LogInAsync";
         const loginData: loginData = {
             //username: username,
@@ -86,6 +86,17 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
                 const data = await response.json();
                 console.log("oka");
                 console.log(data);
+                if (data.message == "Incorrect") {
+                    const invalid_mail_credential_toast = document.getElementById("invalid_mail_credential");
+                    if (invalid_mail_credential_toast) {
+                        invalid_mail_credential_toast.classList.add("error-active");
+
+                        setTimeout(() => {
+                            invalid_mail_credential_toast.classList.remove("error-active");
+                        }, 3000)
+                    }
+                    return;
+                }
                 const cookies = new Cookies();
                 cookies.set('userid', data.id, { path: '/' });
                 cookies.set('username', data.username, { path: '/' });
@@ -164,7 +175,7 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
         }
 
 
-        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/user/CreateAccountAsync";
+        const url: string = "https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/user/CreateAccountAsync";
         // const url: string = "https://localhost:7083/user/CreateAccountAsync";
         try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -248,7 +259,9 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
                         <div className="mail-exist" id="invalid_mail_format_toast">
                             <SubmitErrorToast message={"Invalid email format!"} />
                         </div>
-
+                            <div className="mail-exist" id="invalid_mail_credential">
+                                <SubmitErrorToast message={"Email and password does not match"} />
+                            </div>
                     </div>
                 </div>
 

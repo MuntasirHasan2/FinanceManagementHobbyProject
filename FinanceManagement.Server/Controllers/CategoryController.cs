@@ -19,7 +19,7 @@ namespace FinanceManagement.Server.Controllers
         public async Task<IActionResult> Get()
         {
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -71,7 +71,7 @@ namespace FinanceManagement.Server.Controllers
             var sql = "SELECT * FROM Category WHERE user_id = " + userId;
             List<Category> ListCategory = new List<Category>();
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -140,7 +140,7 @@ namespace FinanceManagement.Server.Controllers
                     "VALUES('" + userid + "','" + name + "')";
 
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -193,7 +193,7 @@ namespace FinanceManagement.Server.Controllers
             string? name = category.Name;
             var sql = "DELETE FROM Category where id =  " + temp_id +" AND user_id = " + userid;
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -239,7 +239,7 @@ namespace FinanceManagement.Server.Controllers
 
             string? sql = category.BulkSQLString;
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 

@@ -5,7 +5,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdSunny } from "react-icons/io";
 import { IoMdMoon } from "react-icons/io";
 import { useEffect, useState } from 'react';
-import Cookies from 'universal-cookie';
 import { useLocalStorage, deleteFromStorage } from '@rehooks/local-storage';
 
 type props = {

@@ -18,7 +18,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(builder => builder
        .AllowAnyHeader()
        .AllowAnyMethod()
-       .WithOrigins("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net")
+       .WithOrigins("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net")
     );
 
 //.AllowAnyOrigin()

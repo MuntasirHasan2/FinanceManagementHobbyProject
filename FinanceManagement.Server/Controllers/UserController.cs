@@ -47,7 +47,7 @@ namespace FinanceManagement.Server.Controllers
             var sql = "SELECT * FROM User where email ='" + email + "'";
 
             HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
+            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
 
             response.EnsureSuccessStatusCode();
 
@@ -57,8 +57,20 @@ namespace FinanceManagement.Server.Controllers
 
             await conn.OpenAsync();
             using var command = new MySqlCommand(sql, conn);
-            MySqlDataReader rdr = command.ExecuteReader();
-           // return Ok("Executed");
+            MySqlDataReader rdr = await command.ExecuteReaderAsync();
+            if (!rdr.Read())
+            {
+                {
+                    var objNoEmail = new User
+                    {
+                        id = id,
+                        username = username,
+                        email = email,
+                        message = "Incorrect"
+                    };
+                    return Ok(objNoEmail);
+                }
+            }
             while (rdr.Read())
             {
                 id = rdr.GetInt32("id");
@@ -108,7 +120,7 @@ namespace FinanceManagement.Server.Controllers
             {
 
                 HttpClient httpClient = new();
-                using HttpResponseMessage response = await httpClient.GetAsync("https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/configuration/");
+                using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
 
                 response.EnsureSuccessStatusCode();
 

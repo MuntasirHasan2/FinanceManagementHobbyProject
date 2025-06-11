@@ -153,7 +153,7 @@ export default function User() {
 
     async function fetchUserData(userIdToCheck: number) {
 
-        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Transaction/GetTransaction";
+        const url: string = "https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/Transaction/GetTransaction";
         const transactionSQL: string = "";
 
         if (userIdToCheck == -1) {
@@ -220,7 +220,7 @@ export default function User() {
         } catch (error: any) {
             console.log("Error :", error.message);
         }
-        const url_recurring: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Transaction/GetTransactionRecurring";
+        const url_recurring: string = "https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/Transaction/GetTransactionRecurring";
 
         try {
             const response = await fetch(url_recurring, {
@@ -692,7 +692,7 @@ export default function User() {
     }
 
     async function SaveToDatabase() {
-        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Transaction/BulkRequestTransaction";
+        const url: string = "https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/Transaction/BulkRequestTransaction";
         let transactionSQL: string = "";
         transactionList.forEach((value: string) => {
             transactionSQL = transactionSQL + value;
@@ -736,7 +736,7 @@ export default function User() {
     }
 
     async function AddToCategoryDB(categoryToAdd: string) {
-        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Category/AddCategory";
+        const url: string = "https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/Category/AddCategory";
         const categoryData: CategoryDataType = {
             //username: username,
             UserId: userId,
@@ -766,7 +766,7 @@ export default function User() {
     }
 
     async function GetCategory() {
-        const url: string = "https://hoobyprojectmuntasirfinance-e6edaeapbqdbfeek.southafricanorth-01.azurewebsites.net/Category/GetCategory";
+        const url: string = "https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/Category/GetCategory";
         const categoryData: CategoryDataType = {
             //username: username,
             UserId: userId,

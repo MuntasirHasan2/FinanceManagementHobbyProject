@@ -143,6 +143,7 @@
     flex-direction: row;
     gap: 10px;
     font-size: 20px;
+    
     div{
     border: 0.5px solid white;
     padding: 10px;

@@ -656,8 +656,8 @@ export default function Demo() {
         })
         const temp_balance: number = Number(income) - sum;
         setData([...data]);
-        setAllExpenses(sum.toFixed(2));
-        setBalance(temp_balance.toFixed(2));
+        setAllExpenses(Number(sum.toFixed(2)));
+        setBalance(Number(temp_balance.toFixed(2)));
     }
 
     function InitializePieChart() {
