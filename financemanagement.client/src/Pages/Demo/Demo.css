@@ -238,14 +238,18 @@ optgroup, select, option {
     font-size: 24px;
 }
 
-#addCategory{
-    padding:5px 10px;
-    background-color:lightgreen;
-    border-radius:5px;
-    width:fit-content;
-    display:flex;
-    justify-content:center;
-    text-align:center;
+#addCategory {
+    padding: 3px 10px;
+    background-color: rgb(49, 49, 200);
+    
+    border-radius: 5px;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
 }
 
 .type, .recurring-type {
@@ -295,6 +299,21 @@ optgroup, select, option {
 
           &>div:last-child {
               border-bottom:none;
+          }
+
+          button{
+              display:flex;
+              justify-content:center;
+              align-items:center;
+          }
+
+          input::placeholder{
+              font-size:18px;
+          }
+
+          input{
+              margin-top:5px;
+              max-width:150px;
           }
 }
 
@@ -387,6 +406,7 @@ optgroup, select, option {
     .top-content {
         padding-top: 150px;
     }
+
     .content-expenses {
         margin-top: 20px;
         display: flex;
@@ -412,37 +432,36 @@ optgroup, select, option {
         font-weight: 500;
     }
 
-    .currentData{
-        gap:10px;
+    .currentData {
+        gap: 10px;
     }
 
     .summary-expenses {
-        width:100vw;
+        width: 100vw;
         font-size: 18px;
-        border-radius:0;
-        border-left:none;
-        border-right:none;
-
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
     }
 
     .summary-piechart {
         margin-top: 10px;
         width: 100vw;
         padding: 5px;
-        border:none;
+        border: none;
         border-top: 0.5px solid;
-        border-bottom:0.5px solid;
+        border-bottom: 0.5px solid;
         border-color: var(--border-color);
-        border-radius:0;
+        border-radius: 0;
     }
 
     .expenses-value {
         font-size: 24px;
         font-weight: 500;
-        display:flex;
-        flex-direction:row;
-        align-items:center;
-        gap:3px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 3px;
     }
 
     .expenses-tracking {
@@ -451,32 +470,42 @@ optgroup, select, option {
         font-weight: 600;
         text-align: center;
     }
-    .mobile-screen{
-        width:100vw;
-    }
-    .mobile-screen td{
-        width:120px;
-        font-size:20px;
+
+
+
+    .mobile-screen {
+        width: 100vw;
+
     }
 
-    .mobile-screen td input{
+
+
+        .mobile-screen td {
+            width: 120px;
+            font-size: 20px;
+        }
+
+            .mobile-screen td input {
+                width: 120px;
+            }
+
+                .mobile-screen td input::placeholder {
+                    text-indent: 8px;
+                    align-content: start;
+                    font-size: 18px;
+                }
+
+        .mobile-screen tr td:first-child div {
+            text-indent: 5px;
+        }
+
+
+
+    .type,
+    .type .recurring-type {
         width: 120px;
     }
 
-    .mobile-screen td input::placeholder {
-        text-indent: 8px;
-        align-content: start;
-        font-size:18px;
-    }
-
-    .mobile-screen tr td:first-child div{
-        text-indent:5px;
-    }
-
-    .type,
-    .type .recurring-type{
-        width:120px;
-    }
     .categoryBox, .occuranceBox {
         display: flex;
         align-items: center;
@@ -489,13 +518,45 @@ optgroup, select, option {
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .add-item,
-    .remove-item{
-        width:100px;
-        font-size:20px;
+
+
+    .dropdown-content-category input {
+      
+            margin-top: 5px;
+            min-width: 150px ;
+        
+
+           
     }
 
+    .dropdown-content-category input::placeholder{
+        font-size:16px;
+    }
 
+    table.mobile-screen {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+        table.mobile-screen td,
+        table.mobile-screen th {
+            width: 33.33%; /* assuming 3 columns */
+            padding: 8px;
+            vertical-align: top;
+        }
+
+            table.mobile-screen td > div {
+                width: 100%; /* force inner divs to stretch */
+                display: block;
+            }
+
+    .add-item,
+    .remove-item {
+        width: 100px !important;
+        font-size: 20px !important;
+        text-align:center;
+    }
 
 
 }

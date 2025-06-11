@@ -433,9 +433,60 @@ export default function Demo() {
                     const temp_amount: number = Number(transactionElement.getElementsByClassName("amount")[0].innerHTML);
                     removeFromPieChart(temp_category_name, temp_amount);
                 }
-            
+
+                let indexToRemove: number = 0;
+
+                for (let j = 0; j < allData.length; j++) {
+                    //const temp_jsonObj = allData[j];
+
+                    if ((expense[i]["month"] == allData[j]["month"]) && (expense[i]["year"] == allData[j]["year"])) {
+
+                        if ( (expense[i]["name"] == allData[j]["name"]) && (expense[i]["description"] == allData[j]["description"])
+                            && (expense[i]["category"] == allData[j]["category"]) && (expense[i]["amount"] == allData[j]["amount"]) )
+                        {
+
+                            indexToRemove = j;
+                            console.log("index : ", indexToRemove)
+
+                        }
+
+                    }
+
+                }
+                console.log("index outisde: ", indexToRemove)
+                console.log("all data ", allData);
+                console.log("expense ", expense);
+                allData.splice(indexToRemove, 1);
+                setAllData([...allData]);
+
             const updatedExpense = [...expense.slice(0, i), ...expense.slice(i + 1)];
-            setExpense(updatedExpense);
+                setExpense(updatedExpense);
+                console.log("all data ", allData);
+                console.log("expense ", expense);
+        }
+
+    }
+
+    function removeExponseRecurring(index: string, event: React.MouseEvent<HTMLElement>) {
+        const i: number = Number(index);
+        if (i != -1) {
+            const temp_sql: string = "DELETE FROM Transaction_Recurring WHERE id = " + i + " ; ";
+            addToQueue(temp_sql);
+        }
+        const temp_target = (event.target as HTMLInputElement);
+        if (temp_target) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            const transactionElement: HTMLElement = temp_target.parentElement.parentElement;
+            if (transactionElement) {
+
+                const temp_category_name: string = transactionElement.getElementsByClassName("category")[0].innerHTML;
+                const temp_amount: number = Number(transactionElement.getElementsByClassName("amount")[0].innerHTML);
+                removeFromPieChart(temp_category_name, temp_amount);
+            }
+
+            const updatedExpense = [...recurringExpense.slice(0, i), ...recurringExpense.slice(i + 1)];
+            setRecurringExpense(updatedExpense);
         }
 
     }
@@ -464,13 +515,43 @@ export default function Demo() {
                 removeFromPieChart(temp_category_name, temp_amount);
             }
             console.log("index : ", i);
+            
             const updatedExpense = [...expense.slice(0, i), ...expense.slice(i + 1)];
             setExpense(updatedExpense);
+            console.log("expense : ", updatedExpense);
         }
 
     }
 
+    function removeExponseMobileRecurring(index: string, event: React.MouseEvent<HTMLElement>) {
+        const i: number = Number(index);
+        if (i != -1) {
+            const temp_sql: string = "DELETE FROM Transaction_Recurring WHERE id = " + i + " ; ";
+            addToQueue(temp_sql);
+        }
+        const temp_target = (event.target as HTMLInputElement);
+        if (temp_target) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            const transactionElement: HTMLElement = temp_target.parentElement.parentElement;
+            // @ts-expect-error
+            const transactionElementAmount: HTMLElement = temp_target.parentElement?.parentElement?.previousElementSibling;
 
+            if (transactionElement && transactionElementAmount) {
+
+                const temp_category_name: string = transactionElement.getElementsByClassName("category")[0].innerHTML;
+                const temp_amount: number = Number(transactionElementAmount.getElementsByClassName("amount")[0].innerHTML);
+                console.log(temp_category_name);
+                console.log(temp_amount);
+                removeFromPieChart(temp_category_name, temp_amount);
+            }
+            console.log("index : ", i);
+
+            const updatedExpense = [...recurringExpense.slice(0, i), ...recurringExpense.slice(i + 1)];
+            setRecurringExpense(updatedExpense);
+        }
+
+    }
 
 
 
@@ -505,6 +586,18 @@ export default function Demo() {
     }
     function showCategoryType(){
         const type = document.getElementById("category_type");
+        if (type) {
+
+            if (type.classList.contains("show-dropdown")) {
+                type.classList.remove("show-dropdown");
+            } else {
+
+                type.classList.add("show-dropdown");
+            }
+        }
+    }
+    function showCategoryTypeMobile() {
+        const type = document.getElementById("category_type_mobile");
         if (type) {
 
             if (type.classList.contains("show-dropdown")) {
@@ -563,8 +656,8 @@ export default function Demo() {
         })
         const temp_balance: number = Number(income) - sum;
         setData([...data]);
-        setAllExpenses(sum);
-        setBalance(temp_balance);
+        setAllExpenses(sum.toFixed(2));
+        setBalance(temp_balance.toFixed(2));
     }
 
     function InitializePieChart() {
@@ -866,10 +959,10 @@ export default function Demo() {
                                                     <input type="text" name="newCategory" id="newCategory"
                                                         placeholder="Enter Category"
                                                         value={newCategory} onChange={(e) =>  setNewCategory(e.currentTarget.value) } />
-                                                        <span id="addCategory"
+                                                        <div id="addCategory"
                                                             onClick={AddNewCategory}>
                                                             Add
-                                                        </span>
+                                                        </div>
                                                     </div>
                                                
                      
@@ -998,7 +1091,7 @@ export default function Demo() {
                                             <div
                                                 className="remove-item"
                                                 id={index.toString()}
-                                                onClick={(e) => removeExponse(e.currentTarget.id, e)}>
+                                                onClick={(e) => removeExponseRecurring(e.currentTarget.id, e)}>
                                                 Remove
                                             </div>
                                         </td>
@@ -1059,10 +1152,10 @@ export default function Demo() {
                                         <div className="type-category">
 
                                             <div
-                                                onClick={showCategoryType}
+                                                onClick={showCategoryTypeMobile}
                                             >{category != "" ? category : "Select Category"} <IoMdArrowDropdownCircle /> </div>
 
-                                            <div className="dropdown-content-category" id="category_type">
+                                            <div className="dropdown-content-category" id="category_type_mobile">
 
                                                 {categoryList.map((item: string, index: number) => (
                                                     <div
@@ -1175,7 +1268,7 @@ export default function Demo() {
 
                                             <td>
                                                 <div className="type">
-                                                    {element.occuranceType}
+                                                    One-Off
                                                 </div>
                                             </td>
 
@@ -1231,7 +1324,7 @@ export default function Demo() {
 
                                         <td>
                                             <div className="type">
-                                                {element.occuranceType}
+                                                Every Month
                                             </div>
                                         </td>
 
@@ -1241,7 +1334,7 @@ export default function Demo() {
                                             <div
                                                 className="remove-item"
                                                     id={index.toString()}
-                                                    onClick={(e) => removeExponseMobile(e.currentTarget.id, e)}>
+                                                    onClick={(e) => removeExponseMobileRecurring(e.currentTarget.id, e)}>
                                                 Remove
                                             </div>
                                         </td>

@@ -30,10 +30,7 @@ export default function Navbar({ isDark, updateDarkMode,isLoggedIn }: props) {
         updateDarkMode(!isDark);
     }
     function checkIfLogIn() {
-        const cookies = new Cookies();
-        const userId = cookies.get('userid')
-       // const temp_username = cookies.get('username');
-        console.log("user id ", userId);
+
         console.log("local username", local_username);
         if (local_username != undefined) {
             setIsSignIn(true);
@@ -49,12 +46,10 @@ export default function Navbar({ isDark, updateDarkMode,isLoggedIn }: props) {
     }
 
     function Signout() {
-        const cookies = new Cookies();
-        cookies.remove('userid');
-        cookies.remove('username');
+
         deleteFromStorage('username');
         deleteFromStorage('userid');
-        checkIfLogIn();
+        setIsSignIn(false);
         navigate("/");
     }
     const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
