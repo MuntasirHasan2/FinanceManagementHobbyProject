@@ -64,8 +64,8 @@ export default function Signup({isLoggedIn, setIsLoggedIn } : props) {
 
             }
         }
-        const url: string = "https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/user/LogInAsync";
-        //const url: string = "https://localhost:50530/user/LogInAsync";
+        //const url: string = "https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/user/LogInAsync";
+        const url: string = "https://localhost:50530/user/LogInAsync";
         const loginData: loginData = {
             //username: username,
             email: email,

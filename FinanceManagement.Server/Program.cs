@@ -1,9 +1,14 @@
+using FinanceManagement.Server.Services;
+using FinanceManagement.Server.IServices;
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddOpenApi();
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -18,7 +23,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors(builder => builder
        .AllowAnyHeader()
        .AllowAnyMethod()
-       .WithOrigins("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net")
+       .AllowAnyOrigin()
+       //.WithOrigins("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net","https://localhost:50277/","https://localhost:50277/signin","https://localhost:7091")
     );
 
 //.AllowAnyOrigin()

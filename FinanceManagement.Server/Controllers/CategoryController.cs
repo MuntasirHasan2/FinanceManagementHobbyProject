@@ -1,4 +1,5 @@
-﻿using FinanceManagement.Server.Model;
+﻿using FinanceManagement.Server.Models;
+using FinanceManagement.Server.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -67,7 +68,7 @@ namespace FinanceManagement.Server.Controllers
 
             int id = 0;
             string name = "";
-            int? userId = category.UserId;
+            int userId = category.UserId;
             var sql = "SELECT * FROM Category WHERE user_id = " + userId;
             List<Category> ListCategory = new List<Category>();
             HttpClient httpClient = new();
@@ -93,7 +94,6 @@ namespace FinanceManagement.Server.Controllers
                         Id = id,
                         UserId = userId,
                         Name = name,
-                        Message = "OK"
                     };
 
                     ListCategory.Add(obj_temp);
@@ -116,7 +116,6 @@ namespace FinanceManagement.Server.Controllers
                 {
                     Id = id,
                     Name = ex.Message,
-                    Message = "Error",
                 };
                 return Ok(obj_error);
             }
@@ -134,8 +133,8 @@ namespace FinanceManagement.Server.Controllers
         public async Task<IActionResult> AddCategoryAsync(Category category)
         {
 
-            int? userid = category.UserId;
-            string? name = category.Name;
+            int userid = category.UserId;
+            string name = category.Name;
             var sql = "INSERT INTO Category  (user_id, name) " +
                     "VALUES('" + userid + "','" + name + "')";
 
@@ -187,10 +186,10 @@ namespace FinanceManagement.Server.Controllers
         public async Task<IActionResult> RemoveCategoryAsync(Category category)
         {
 
-            int? category_id = category.Id;
-            int? userid = category.UserId;
-            string? temp_id = category_id.ToString();
-            string? name = category.Name;
+            int category_id = category.Id;
+            int userid = category.UserId;
+            string temp_id = category_id.ToString();
+            string name = category.Name;
             var sql = "DELETE FROM Category where id =  " + temp_id +" AND user_id = " + userid;
             HttpClient httpClient = new();
             using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
@@ -213,7 +212,6 @@ namespace FinanceManagement.Server.Controllers
                     Id = category_id,
                     UserId = userid,
                     Name = name,
-                    Message = "Deleted",
 
                 };
                 return Ok(Obj);
@@ -224,7 +222,6 @@ namespace FinanceManagement.Server.Controllers
                 {
                     UserId = -1,
                     Name = ex.Message,
-                    Message = "Error",
 
                 };
                 return Ok(Obj);
@@ -234,10 +231,10 @@ namespace FinanceManagement.Server.Controllers
 
         [Route("BulkRequestCategory")]
         [HttpPost]
-        public async Task<IActionResult> BulkRequestCategory(Category category)
+        public async Task<IActionResult> BulkRequestCategory(BulkSqlRequest request)
         {
 
-            string? sql = category.BulkSQLString;
+            string sql = request.SqlRequest ;
             HttpClient httpClient = new();
             using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
 
@@ -253,7 +250,7 @@ namespace FinanceManagement.Server.Controllers
                 await using MySqlDataReader reader = await command.ExecuteReaderAsync();
 
 
-                var Obj = new Category
+                var Obj = new
                 {
 
                     Message = "Executed",
@@ -267,8 +264,6 @@ namespace FinanceManagement.Server.Controllers
                 {
                     UserId = -1,
                     Name = ex.Message,
-                    Message = "Error",
-
                 };
                 return Ok(Obj);
             }

@@ -6,3 +6,7 @@ Accept: application/json
 ###
 GET {{FinanceManagement.Server_HostAddress}}/configuration/
 Accept: application/json
+
+###
+GET {{FinanceManagement.Server_HostAddress}}/user/
+Accept: application/json

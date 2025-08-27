@@ -1,10 +1,11 @@
 ﻿using DotNetEnv;
-using FinanceManagement.Server.Model;
+using FinanceManagement.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using System.Data;
 using System.Net.Http;
 using System.Text.Json;
+using FinanceManagement.Server.Entities;
 
 namespace FinanceManagement.Server.Controllers
 {
@@ -48,7 +49,7 @@ namespace FinanceManagement.Server.Controllers
 
                     var obj_temp = new Transaction
                     {
-                        TransactionId = id,
+                        Id = id,
                         UserId = userId,
                         Name = name,
                         Description = desction,
@@ -56,9 +57,6 @@ namespace FinanceManagement.Server.Controllers
                         Amount = amount,
                         Year = year,
                         Month = month,
-                        recurring_type = recurring_type,
-                        occorance_type = occorance_type,
-                        Message = "OK"
                     };
 
                     ListTransaction.Add(obj_temp);
@@ -77,7 +75,6 @@ namespace FinanceManagement.Server.Controllers
                 {
                     Id = -1,
                     Name = ex.Message,
-                    Message = "Error",
                 };
                 return Ok(obj_error);
             }
@@ -122,7 +119,7 @@ namespace FinanceManagement.Server.Controllers
 
                     var obj_temp = new Transaction
                     {
-                        TransactionId = id,
+                        Id = id,
                         UserId = userId,
                         Name = name,
                         Description = desction,
@@ -130,9 +127,6 @@ namespace FinanceManagement.Server.Controllers
                         Amount = amount,
                         Year = year,
                         Month = month,
-                        recurring_type = recurring_type,
-                        occorance_type= occorance_type,
-                        Message = "OK"
                     };
 
                     ListTransaction.Add(obj_temp);
@@ -151,7 +145,6 @@ namespace FinanceManagement.Server.Controllers
                 {
                     Id = -1,
                     Name = ex.Message,
-                    Message = "Error",
                 };
                 return Ok(obj_error);
             }
@@ -168,7 +161,7 @@ namespace FinanceManagement.Server.Controllers
 
             int id = 0;
             string name = "";
-            int? userId = transaction.UserId;
+            int userId = transaction.UserId;
             var sql = "SELECT * FROM Transaction WHERE user_id = " + userId;
             List<Transaction> ListTransaction = new List<Transaction>();
 
@@ -200,7 +193,7 @@ namespace FinanceManagement.Server.Controllers
 
                     var obj_temp = new Transaction
                     {
-                        TransactionId = id,
+                        Id = id,
                         UserId = userId,
                         Name = name,
                         Description = desction,
@@ -208,9 +201,6 @@ namespace FinanceManagement.Server.Controllers
                         Amount = amount,
                         Year = year,
                         Month = month,
-                        //occorance_type= occorance_type,
-                        //recurring_type=recurring_type,
-                        Message = "OK"
                     };
 
                     ListTransaction.Add(obj_temp);
@@ -229,10 +219,9 @@ namespace FinanceManagement.Server.Controllers
             }
             catch (Exception ex)
             {
-                var obj_error = new Category
+                var obj_error = new
                 {
                     Id = id,
-                    Message = ex.Message,
                 };
 
                 return Ok(obj_error);
@@ -248,7 +237,7 @@ namespace FinanceManagement.Server.Controllers
 
             int id = 0;
             string name = "";
-            int? userId = transaction.UserId;
+            int userId = transaction.UserId;
             var sql = "SELECT * FROM Transaction_Recurring WHERE user_id = " + userId;
             List<Transaction> ListTransaction = new List<Transaction>();
 
@@ -278,15 +267,12 @@ namespace FinanceManagement.Server.Controllers
 
                     var obj_temp = new Transaction
                     {
-                        TransactionId = id,
+                        Id = id,
                         UserId = userId,
                         Name = name,
                         Description = desction,
                         Category = category_name,
                         Amount = amount,
-                        //occorance_type= occorance_type,
-                        //recurring_type=recurring_type,
-                        Message = "OK"
                     };
 
                     ListTransaction.Add(obj_temp);
@@ -308,7 +294,6 @@ namespace FinanceManagement.Server.Controllers
                 var obj_error = new Category
                 {
                     Id = id,
-                    Message = ex.Message,
                 };
 
                 return Ok(obj_error);
@@ -322,10 +307,10 @@ namespace FinanceManagement.Server.Controllers
 
         [Route("BulkRequestTransaction")]
         [HttpPost]
-        public async Task<IActionResult> BulkRequestTransaction(Transaction transaction)
+        public async Task<IActionResult> BulkRequestTransaction(BulkSqlRequest transaction)
         {
 
-            string? sql = transaction.BulkSQLString;
+            string? sql = transaction.SqlRequest;
             HttpClient httpClient = new();
             using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
 
@@ -344,7 +329,7 @@ namespace FinanceManagement.Server.Controllers
                 var Obj = new Transaction
                 {
 
-                    Message = "Executed",
+                    //Message = "Executed",
 
                 };
                 return Ok(Obj);
@@ -355,8 +340,6 @@ namespace FinanceManagement.Server.Controllers
                 {
                     UserId = -1,
                     Name = ex.Message,
-                    Message = "Error",
-
                 };
                 return Ok(Obj);
             }
