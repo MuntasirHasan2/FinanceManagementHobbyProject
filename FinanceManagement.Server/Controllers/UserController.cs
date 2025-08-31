@@ -35,8 +35,6 @@ public class UserController : Controller
             Email = "zz",
         };
         throw new NotFoundException("testig");
-        _userService.AddUser("25 Ag added test","new ag 25 email","Test tag 25 password");
-        return Ok(obj);
     }
 
 
@@ -56,7 +54,7 @@ public class UserController : Controller
         string username = loginData.Username;
         string email = loginData.Email;
         string password = loginData.Password;
-        if (_userService.AddAsync(username, email, password))
+        if (await _userService.AddAsync(username, email, password))
         {
             return Created();
         }

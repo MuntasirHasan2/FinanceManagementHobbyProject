@@ -8,8 +8,7 @@ using FinanceManagement.Server.CustomException;
 
 namespace FinanceManagement.Server.GlobalException;
 
-internal sealed class GlobalExceptionHandler(
-    ILogger<GlobalExceptionHandler> logger) : IExceptionFilter
+internal sealed class GlobalExceptionHandler : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {

@@ -1,3 +1,5 @@
+using FinanceManagement.Server.Models;
+
 namespace FinanceManagement.Server.IServices;
 
 public interface IUserService

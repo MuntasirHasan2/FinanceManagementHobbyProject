@@ -4,6 +4,7 @@ using FinanceManagement.Server.GlobalException;
 using FinanceManagement.Server.Repositories;
 using FinanceManagement.Server.IRepositories;
 
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
@@ -13,7 +14,7 @@ builder.Services.AddControllers(options =>
 });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IRepository, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddOpenApi();
 //builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

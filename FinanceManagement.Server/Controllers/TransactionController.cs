@@ -222,6 +222,7 @@ namespace FinanceManagement.Server.Controllers
                 var obj_error = new
                 {
                     Id = id,
+                    Message = ex.Message,
                 };
 
                 return Ok(obj_error);
@@ -291,9 +292,10 @@ namespace FinanceManagement.Server.Controllers
             }
             catch (Exception ex)
             {
-                var obj_error = new Category
+                var obj_error = new 
                 {
                     Id = id,
+                    Message = ex.Message,
                 };
 
                 return Ok(obj_error);

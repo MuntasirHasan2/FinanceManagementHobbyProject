@@ -1,4 +1,10 @@
 using FinanceManagement.Server.IRepositories;
+using FinanceManagement.Server.Entities;
+using FinanceManagement.Server.DataContext;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
+namespace FinanceManagement.Server.Repositories;
 
 public class UserRepository : IUserRepository
 {
@@ -11,32 +17,32 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> AddAsync(User user)
     {
-        await _dbContext.Users.Add(user);
+        await _dbContext.Users.AddAsync(user);
         return await _dbContext.SaveChangesAsync() > 0;
     }
-    public async Task<User> GetByIdAsync(int id)
+    public async Task<User?> GetByIdAsync(int id)
     {
-        return _dbContext.Users
-                         .SingleOrDefaultAsync(id);
+        return await _dbContext.Users
+                         .FirstOrDefaultAsync(n => n.Id == id);
     }
-    public async Task<User> GetByNameAsync(string name)
+    public async Task<User?> GetByNameAsync(string name)
     {
-        return _dbContext.Users
-                         .SingleOrDefaultAsync(name);
+        return await _dbContext.Users
+                         .FirstOrDefaultAsync(n=>n.Username == name);
     }
-    public async Task<User> GetByEmailAsync(string email)
+    public async Task<User?> GetByEmailAsync(string email)
     {
-        return _dbContext.Users.SingleOrDefaultAsync(n => n.Email == email);
+        return await _dbContext.Users.SingleOrDefaultAsync(n => n.Email == email);
     }
     public async Task<bool> DeleteAsync(User user)
     {
-        await _dbContext.Users.Remove(user);
-        return _dbContext.SaveChangesAsync() > 0;
+        _dbContext.Users.Remove(user);
+        return await _dbContext.SaveChangesAsync() > 0;
     }
     public async Task<bool> UpdateAsync(User oldUser, User updatedUser)
     {
-        oldUser.Username = string.IsNullOrEmpty(updatedUser) ? oldUser.Username : updatedUser.Username;
-        await _dbContext.Users.Update(oldUser);
+        oldUser.Username = string.IsNullOrEmpty(updatedUser.Username) ? oldUser.Username : updatedUser.Username;
+        _dbContext.Users.Update(oldUser);
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
