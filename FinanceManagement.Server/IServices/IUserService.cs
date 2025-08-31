@@ -2,6 +2,8 @@ namespace FinanceManagement.Server.IServices;
 
 public interface IUserService
 {
-    bool AddUser(string username, string email, string password);
-    bool UpdateUser(int userId, string username);
+    Task<LoginResponse> LogInAsync(string email, string password);
+    Task<bool> AddAsync(string username, string email, string password);
+    Task<bool> UpdateAsync(int userId, string username);
+    Task<bool> DeleteAsync(int userId);
 }

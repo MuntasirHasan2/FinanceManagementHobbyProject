@@ -62,7 +62,11 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
-
+FinanceManagement.Server/http-client.private.env.json
+financemanagement.client/obj\\Debug/
+.DS_Store
+.idea/
+FinanceManagement.Server/.DS_Store
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
