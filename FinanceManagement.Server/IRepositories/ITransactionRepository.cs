@@ -10,4 +10,5 @@ public interface ITransactionRepository
     Task<Transaction?> GetAsync(int id);
     Task<List<Transaction>?> ListByUserIdAsync(int id);
     Task<bool> AddList(List<Transaction> list);
+    Task<List<Transaction>> ListAll();
 }

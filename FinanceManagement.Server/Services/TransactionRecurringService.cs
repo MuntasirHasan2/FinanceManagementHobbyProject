@@ -5,21 +5,21 @@ using FinanceManagement.Server.IRepositories;
 using FinanceManagement.Server.CustomException;
 namespace FinanceManagement.Server.Services;
 
-public class TransactionService : ITransactionService
+public class TransactionRecurringService : ITransactionRecurringService
 {
-    private readonly ITransactionRepository _transactionRepository;
-    public TransactionService(ITransactionRepository transactionRepository)
+    private readonly ITransactionRecurringRepository _transactionRecurringRepository;
+    public TransactionService(ITransactionRecurringRepository transactionRecurringRepository)
     {
-        _transactionRepository = transactionRepository;
+        _transactionRecurringRepository = transactionRecurringRepository;
     }
     public async Task<bool> AddAsync(TransactionRequest request)
     {
-        return await _transactionRepository.AddAsync(request.ToEntity());
+        return await _transactionRecurringRepository.AddAsync(request.ToEntity());
     }
-    public async Task<List<TransactionResponse>> GetByUserIdAsync(int userId)
+    public async Task<List<TransactionRecurringResponse>> GetByUserIdAsync(int userId)
     {
-        var transactionList = await _transactionRepository.ListByUserIdAsync(userId);
-        var transactionResponseList = new List<TransactionResponse>();
+        var transactionList = await _transactionRecurringRepository.ListByUserIdAsync(userId);
+        var transactionResponseList = new List<TransactionRecurringResponse>();
         foreach (var transaction in transactionList)
         {
             transactionResponseList.Add(transaction.ToModel());
@@ -28,16 +28,16 @@ public class TransactionService : ITransactionService
     }
     public async Task<bool> DeleteById(int id)
     {
-        var transaction = await _transactionRepository.GetAsync(id);
+        var transaction = await _transactionRecurringRepository.GetAsync(id);
         if (transaction is null)
         {
             throw new NotFoundException($"Transaction with id {id} does not exist");
         }
-        return await _transactionRepository.DeleteAsync(transaction);
+        return await _transactionRecurringRepository.DeleteAsync(transaction);
     }
     public async Task<bool> UpdateAsync(TransactionRequest request)
     {
-        var transaction = await _transactionRepository.GetAsync(request.Id);
+        var transaction = await _transactionRecurringRepository.GetAsync(request.Id);
         if (transaction is null)
         {
             throw new NotFoundException($"Transaction with id {request.Id} does not exist");
@@ -49,23 +49,23 @@ public class TransactionService : ITransactionService
         transaction.Year = string.IsNullOrEmpty(request.Year) ? transaction.Year : request.Year;
         transaction.Month = string.IsNullOrEmpty(request.Month) ? transaction.Month : request.Month;
 
-        return await _transactionRepository.UpdateAsync(transaction);
+        return await _transactionRecurringRepository.UpdateAsync(transaction);
     }
 
-    public async Task<bool> AddList(List<TransactionRequest> list)
+    public async Task<bool> AddList(List<TransactionRecurringRequest> list)
     {
         var transactionList = new List<Transaction>();
         foreach (var transaction in list)
         {
             transactionList.Add(transaction.ToEntity());
         }
-        return await _transactionRepository.AddList(transactionList);
+        return await _transactionRecurringRepository.AddList(transactionList);
     }
 
-    public async Task<List<TransactionResponse>> ListAllAsync()
+    public async Task<List<TransactionRecurringResponse>> ListAllAsync()
     {
-        var transactionList = await _transactionRepository.ListAll();
-        var transactionResponseList = new List<TransactionResponse>();
+        var transactionList = await _transactionRecurringRepository.ListAll();
+        var transactionResponseList = new List<TransactionRecurringResponse>();
         foreach (var transaction in transactionList)
         {
             transactionResponseList.Add(transaction.ToModel());

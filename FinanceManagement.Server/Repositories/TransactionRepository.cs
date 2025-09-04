@@ -44,4 +44,9 @@ public class TransactionRepository : ITransactionRepository
         _financeDBContext.Transactions.AddRange(list);
         return await _financeDBContext.SaveChangesAsync() > 0;
     }
+
+    public async Task<List<Transaction>> ListAll()
+    {
+        return await _financeDBContext.Transactions.ToListAsync();
+    }
 }

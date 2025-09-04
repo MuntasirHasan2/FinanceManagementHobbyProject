@@ -7,347 +7,69 @@ using System.Net.Http;
 using System.Text.Json;
 using FinanceManagement.Server.Entities;
 
-namespace FinanceManagement.Server.Controllers
+namespace FinanceManagement.Server.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class TransactionController : Controller
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class TransactionController : Controller
+    private readonly ITransactionService _transactionService;
+    private readonly ITransactionRecurringService _transactionRecurringService;
+
+    public TransactionController(ITransactionService transactionService, ITransactionRecurringService transactionRecurringService)
     {
-
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
-        {
-            var sql = "SELECT * FROM Transaction;";
-            List<Transaction> ListTransaction = new List<Transaction>();
-
-            HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
-
-            response.EnsureSuccessStatusCode();
-
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"{jsonResponse}\n");
-            MySqlConnection conn = new MySqlConnection(Environment.GetEnvironmentVariable(jsonResponse));
-
-            try
-            {
-                await conn.OpenAsync();
-                using var command = new MySqlCommand(sql, conn);
-                MySqlDataReader rdr = command.ExecuteReader();
-                while (rdr.Read())
-                {
-                    int id = rdr.GetInt32("id");
-                    int userId = rdr.GetInt32("user_id");
-                    string name = rdr.GetString("name");
-                    string desction = rdr.GetString("description");
-                    string category_name = rdr.GetString("category_name");
-                    double amount = rdr.GetDouble("amount");
-                    string year = rdr.GetString("year");
-                    string month = rdr.GetString("month");
-                    string occorance_type = rdr.GetString("occorance_type");
-                    string recurring_type = rdr.GetString("recurring_type");
-
-                    var obj_temp = new Transaction
-                    {
-                        Id = id,
-                        UserId = userId,
-                        Name = name,
-                        Description = desction,
-                        Category = category_name,
-                        Amount = amount,
-                        Year = year,
-                        Month = month,
-                    };
-
-                    ListTransaction.Add(obj_temp);
-
-                }
-                rdr.Close();
-                conn.Close();
-
-
-                string jsonString = JsonSerializer.Serialize(ListTransaction);
-                return Ok(jsonString);
-            }
-            catch (Exception ex)
-            {
-                var obj_error = new Category
-                {
-                    Id = -1,
-                    Name = ex.Message,
-                };
-                return Ok(obj_error);
-            }
-        }
-
-
-
-        [Route("GetAllTransaction")]
-        [HttpGet]
-        public async Task<IActionResult> GetAllTransaction(Transaction transaction)
-        {
-
-            var sql = "SELECT * FROM Transaction;";
-            List<Transaction> ListTransaction = new List<Transaction>();
-
-            HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
-
-            response.EnsureSuccessStatusCode();
-
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-
-            MySqlConnection conn = new MySqlConnection(jsonResponse);
-
-            try
-            {
-                await conn.OpenAsync();
-                using var command = new MySqlCommand(sql, conn);
-                MySqlDataReader rdr = command.ExecuteReader();
-                while (rdr.Read())
-                {
-                    int id = rdr.GetInt32("id");
-                    int userId = rdr.GetInt32("user_id");
-                    string name = rdr.GetString("name");
-                    string desction = rdr.GetString("description");
-                    string category_name = rdr.GetString("category_name");
-                    double amount = rdr.GetDouble("amount");
-                    string year = rdr.GetString("year");
-                    string month = rdr.GetString("month");
-                    string occorance_type = rdr.GetString("occorance_type");
-                    string recurring_type = rdr.GetString("recurring_type");
-
-                    var obj_temp = new Transaction
-                    {
-                        Id = id,
-                        UserId = userId,
-                        Name = name,
-                        Description = desction,
-                        Category = category_name,
-                        Amount = amount,
-                        Year = year,
-                        Month = month,
-                    };
-
-                    ListTransaction.Add(obj_temp);
-
-                }
-                rdr.Close();
-                conn.Close();
-
-
-                string jsonString = JsonSerializer.Serialize(ListTransaction);
-                return Ok(jsonString);
-            }
-            catch (Exception ex)
-            {
-                var obj_error = new Category
-                {
-                    Id = -1,
-                    Name = ex.Message,
-                };
-                return Ok(obj_error);
-            }
-
-        }
-
-
-
-
-        [Route("GetTransaction")]
-        [HttpPost]
-        public async Task<IActionResult> GetTransaction(Transaction transaction)
-        {
-
-            int id = 0;
-            string name = "";
-            int userId = transaction.UserId;
-            var sql = "SELECT * FROM Transaction WHERE user_id = " + userId;
-            List<Transaction> ListTransaction = new List<Transaction>();
-
-            HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
-
-            response.EnsureSuccessStatusCode();
-
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-
-            MySqlConnection conn = new MySqlConnection(jsonResponse);
-
-            try
-            {
-                await conn.OpenAsync();
-                using var command = new MySqlCommand(sql, conn);
-                MySqlDataReader rdr = command.ExecuteReader();
-                while (rdr.Read())
-                {
-                    id = rdr.GetInt32("id");
-                    name = rdr.GetString("name");
-                    string desction = rdr.GetString("description");
-                    string category_name = rdr.GetString("category_name");
-                    double amount = rdr.GetDouble("amount");
-                    string year = rdr.GetString("year");
-                    string month = rdr.GetString("month");
-                    //string occorance_type = rdr.GetString("occorance_type");
-                    //string recurring_type = rdr.GetString("recurring_type");
-
-                    var obj_temp = new Transaction
-                    {
-                        Id = id,
-                        UserId = userId,
-                        Name = name,
-                        Description = desction,
-                        Category = category_name,
-                        Amount = amount,
-                        Year = year,
-                        Month = month,
-                    };
-
-                    ListTransaction.Add(obj_temp);
-
-                }
-                rdr.Close();
-                conn.Close();
-
-                var obj = new Category
-                {
-                    UserId = id,
-                    Name = name,
-                };
-
-                return Ok(ListTransaction);
-            }
-            catch (Exception ex)
-            {
-                var obj_error = new
-                {
-                    Id = id,
-                    Message = ex.Message,
-                };
-
-                return Ok(obj_error);
-            }
-
-
-        }
-
-        [Route("GetTransactionRecurring")]
-        [HttpPost]
-        public async Task<IActionResult> GetTransactionRecurring(Transaction transaction)
-        {
-
-            int id = 0;
-            string name = "";
-            int userId = transaction.UserId;
-            var sql = "SELECT * FROM Transaction_Recurring WHERE user_id = " + userId;
-            List<Transaction> ListTransaction = new List<Transaction>();
-
-            HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
-
-            response.EnsureSuccessStatusCode();
-
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-
-            MySqlConnection conn = new MySqlConnection(jsonResponse);
-
-            try
-            {
-                await conn.OpenAsync();
-                using var command = new MySqlCommand(sql, conn);
-                MySqlDataReader rdr = command.ExecuteReader();
-                while (rdr.Read())
-                {
-                    id = rdr.GetInt32("id");
-                    name = rdr.GetString("name");
-                    string desction = rdr.GetString("description");
-                    string category_name = rdr.GetString("category_name");
-                    double amount = rdr.GetDouble("amount");
-                    //string occorance_type = rdr.GetString("occorance_type");
-                    //string recurring_type = rdr.GetString("recurring_type");
-
-                    var obj_temp = new Transaction
-                    {
-                        Id = id,
-                        UserId = userId,
-                        Name = name,
-                        Description = desction,
-                        Category = category_name,
-                        Amount = amount,
-                    };
-
-                    ListTransaction.Add(obj_temp);
-
-                }
-                rdr.Close();
-                conn.Close();
-
-                var obj = new Category
-                {
-                    UserId = id,
-                    Name = name,
-                };
-
-                return Ok(ListTransaction);
-            }
-            catch (Exception ex)
-            {
-                var obj_error = new 
-                {
-                    Id = id,
-                    Message = ex.Message,
-                };
-
-                return Ok(obj_error);
-            }
-
-
-        }
-
-
-
-
-        [Route("BulkRequestTransaction")]
-        [HttpPost]
-        public async Task<IActionResult> BulkRequestTransaction(BulkSqlRequest transaction)
-        {
-
-            string? sql = transaction.SqlRequest;
-            HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync("https://financemanagementbymuntasir-csa4dmeab7akbdbp.southafricanorth-01.azurewebsites.net/configuration/");
-
-            response.EnsureSuccessStatusCode();
-
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-
-            MySqlConnection conn = new MySqlConnection(jsonResponse);
-            try
-            {
-                await conn.OpenAsync();
-                using var command = new MySqlCommand(sql, conn);
-                await using MySqlDataReader reader = await command.ExecuteReaderAsync();
-
-
-                var Obj = new Transaction
-                {
-
-                    //Message = "Executed",
-
-                };
-                return Ok(Obj);
-            }
-            catch (Exception ex)
-            {
-                var Obj = new Category
-                {
-                    UserId = -1,
-                    Name = ex.Message,
-                };
-                return Ok(Obj);
-            }
-
-        }
-
+        _transactionService = transactionService;
+        _transactionRecurringService = transactionRecurringService;
 
     }
+
+    [HttpGet("List")]
+    public async Task<IActionResult> GetAsync()
+    {
+        return await _transactionService.ListAllAsync();
+    }
+
+    [Route("ListTransactionRecurring")]
+    [HttpGet]
+    public async Task<IActionResult> GetAllTransaction()
+    {
+        return _transactionRecurringService.ListAllAsync();
+    }
+
+    [Route("GetTransaction")]
+    [HttpPost]
+    public async Task<IActionResult> GetTransaction(int userId)
+    {
+        return await _transactionService.GetByUserIdAsync(userId);
+    }
+
+    [Route("GetTransactionRecurring")]
+    [HttpPost]
+    public async Task<IActionResult> GetTransactionRecurring(int id)
+    {
+        return await _transactionRecurringService.GetByUserIdAsync(id);
+    }
+
+    [HttpPost("AddBulkTransaction")]
+    public async Task<IActionResult> BulkRequestTransaction(List<TransactionRequest> listTransaction, List<TransactionRecurringRequest> listTransactionRecurring)
+    {
+        if (await _transactionService.AddList(listTransaction))
+        {
+            return Created();
+        }
+        return BadRequest("Error while Adding Transaction!");
+    }
+
+    [HttpPost("AddBulkTransactionRecurring")]
+    public async Task<IActionResult> BulkRequestTransaction(List<TransactionRequest> listTransaction, List<TransactionRecurringRequest> listTransactionRecurring)
+    {
+        if (await _transactionRecurringService.AddList(listTransactionRecurring))
+        {
+            return Created();
+        }
+        return BadRequest("Error while Adding Transaction Recurring");
+    }
+
+
 }
+

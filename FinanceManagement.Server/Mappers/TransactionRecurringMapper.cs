@@ -3,9 +3,9 @@ using FinanceManagement.Server.Entities;
 
 namespace FinanceManagement.Server.Models;
 
-public static class TransactionMapper
+public static class TransactionRecurringMapper
 {
-    public static Transaction ToEntity(this TransactionRequest transaction)
+    public static TransactionRecurring ToEntity(this TransactionRecurringRequest transaction)
     {
         return new Transaction()
         {
@@ -13,22 +13,18 @@ public static class TransactionMapper
             Description = transaction.Description,
             Category = transaction.Category,
             Amount = transaction.Amount,
-            Year = transaction.Year,
-            Month = transaction.Month,
             UserId = transaction.UserId
         };
     }
 
-    public static TransactionResponse ToModel(this Transaction transaction)
+    public static TransactionRecurringResponse ToModel(this TransactionRecurring transaction)
     {
-        return new TransactionResponse()
+        return new TransactionRecurringResponse()
         {
             Name = transaction.Name,
             Description = transaction.Description,
             Category = transaction.Category,
             Amount = transaction.Amount,
-            Year = transaction.Year,
-            Month = transaction.Month,
         };
     }
 }
