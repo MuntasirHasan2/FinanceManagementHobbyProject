@@ -49,4 +49,16 @@ public class TransactionRepository : ITransactionRepository
     {
         return await _financeDBContext.Transactions.ToListAsync();
     }
+
+    public async Task<bool> BulkDelete(List<int> listTransaction)
+    {
+        foreach (var i in listTransaction)
+        {
+            var transaction = await _financeDBContext.Transactions.FirstOrDefaultAsync(n => n.Id == i);
+            if (transaction != null)
+                 _financeDBContext.Transactions.Remove(transaction);
+        }
+
+        return await _financeDBContext.SaveChangesAsync() > 0;
+    }
 }

@@ -3,6 +3,8 @@ using FinanceManagement.Server.Entities;
 using FinanceManagement.Server.IServices;
 using FinanceManagement.Server.IRepositories;
 using FinanceManagement.Server.CustomException;
+using FinanceManagement.Server.Mappers;
+
 namespace FinanceManagement.Server.Services;
 
 public class TransactionService : ITransactionService
@@ -71,5 +73,10 @@ public class TransactionService : ITransactionService
             transactionResponseList.Add(transaction.ToModel());
         }
         return transactionResponseList;
+    }
+
+    public async Task<bool> DeleteBulk(List<int> listTransaction)
+    {
+        return await _transactionRepository.BulkDelete(listTransaction);
     }
 }

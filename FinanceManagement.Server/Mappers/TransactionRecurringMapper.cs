@@ -1,13 +1,13 @@
 using FinanceManagement.Server.Models;
 using FinanceManagement.Server.Entities;
 
-namespace FinanceManagement.Server.Models;
+namespace FinanceManagement.Server.Mappers;
 
 public static class TransactionRecurringMapper
 {
     public static TransactionRecurring ToEntity(this TransactionRecurringRequest transaction)
     {
-        return new Transaction()
+        return new TransactionRecurring()
         {
             Name = transaction.Name,
             Description = transaction.Description,

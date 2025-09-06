@@ -9,7 +9,7 @@ namespace FinanceManagement.Server.Repositories;
 public class TransactionRecurringRepository : ITransactionRecurringRepository
 {
     private readonly FinanceDBContext _financeDBContext;
-    public TransactionRepository()
+    public TransactionRecurringRepository()
     {
         _financeDBContext = new FinanceDBContext();
     }
@@ -23,12 +23,12 @@ public class TransactionRecurringRepository : ITransactionRecurringRepository
         _financeDBContext.TransactionRecurrings.Remove(transaction);
         return await _financeDBContext.SaveChangesAsync() > 0;
     }
-    public async Task<bool> UpdateAsync(Recurring transaction)
+    public async Task<bool> UpdateAsync(TransactionRecurring transaction)
     {
         _financeDBContext.TransactionRecurrings.Update(transaction);
         return await _financeDBContext.SaveChangesAsync() > 0;
     }
-    public async Task<Transaction?> GetAsync(int id)
+    public async Task<TransactionRecurring?> GetAsync(int id)
     {
         return await _financeDBContext.TransactionRecurrings.FirstOrDefaultAsync(n => n.Id == id);
     }
@@ -47,5 +47,17 @@ public class TransactionRecurringRepository : ITransactionRecurringRepository
     public async Task<List<TransactionRecurring>> ListAll()
     {
         return await _financeDBContext.TransactionRecurrings.ToListAsync();
+    }
+
+    public async Task<bool> BulkDelete(List<int> listTransactionRecurring)
+    {
+        foreach (var i in listTransactionRecurring)
+        {
+            var transaction = await _financeDBContext.TransactionRecurrings.FirstOrDefaultAsync(n => n.Id == i);
+            if (transaction != null)
+                 _financeDBContext.TransactionRecurrings.Remove(transaction);
+        }
+
+        return await _financeDBContext.SaveChangesAsync() > 0;
     }
 }

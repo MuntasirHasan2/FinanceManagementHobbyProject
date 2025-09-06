@@ -10,5 +10,6 @@ public interface ITransactionRecurringService
     Task<bool> DeleteById(int id);
     Task<bool> UpdateAsync(TransactionRecurringRequest request);
     Task<bool> AddList(List<TransactionRecurringRequest> list);
-    Task<List<TransactionRecurringResponse>> ListAll();
+    Task<List<TransactionRecurringResponse>> ListAllAsync();
+    Task<bool> DeleteBulk(List<int> listTransaction);
 }

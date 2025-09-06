@@ -3,16 +3,19 @@ using FinanceManagement.Server.Entities;
 using FinanceManagement.Server.IServices;
 using FinanceManagement.Server.IRepositories;
 using FinanceManagement.Server.CustomException;
+
+using FinanceManagement.Server.Mappers;
+
 namespace FinanceManagement.Server.Services;
 
 public class TransactionRecurringService : ITransactionRecurringService
 {
     private readonly ITransactionRecurringRepository _transactionRecurringRepository;
-    public TransactionService(ITransactionRecurringRepository transactionRecurringRepository)
+    public TransactionRecurringService(ITransactionRecurringRepository transactionRecurringRepository)
     {
         _transactionRecurringRepository = transactionRecurringRepository;
     }
-    public async Task<bool> AddAsync(TransactionRequest request)
+    public async Task<bool> AddAsync(TransactionRecurringRequest request)
     {
         return await _transactionRecurringRepository.AddAsync(request.ToEntity());
     }
@@ -22,7 +25,8 @@ public class TransactionRecurringService : ITransactionRecurringService
         var transactionResponseList = new List<TransactionRecurringResponse>();
         foreach (var transaction in transactionList)
         {
-            transactionResponseList.Add(transaction.ToModel());
+            if(transaction != null)
+                transactionResponseList.Add(transaction.ToModel());
         }
         return transactionResponseList;
     }
@@ -35,7 +39,7 @@ public class TransactionRecurringService : ITransactionRecurringService
         }
         return await _transactionRecurringRepository.DeleteAsync(transaction);
     }
-    public async Task<bool> UpdateAsync(TransactionRequest request)
+    public async Task<bool> UpdateAsync(TransactionRecurringRequest request)
     {
         var transaction = await _transactionRecurringRepository.GetAsync(request.Id);
         if (transaction is null)
@@ -46,15 +50,13 @@ public class TransactionRecurringService : ITransactionRecurringService
         transaction.Description = string.IsNullOrEmpty(request.Description) ? transaction.Description : request.Description;
         transaction.Category = string.IsNullOrEmpty(request.Category) ? transaction.Category : request.Category;
         transaction.Amount = request.Amount == 0 ? transaction.Amount : request.Amount;
-        transaction.Year = string.IsNullOrEmpty(request.Year) ? transaction.Year : request.Year;
-        transaction.Month = string.IsNullOrEmpty(request.Month) ? transaction.Month : request.Month;
 
         return await _transactionRecurringRepository.UpdateAsync(transaction);
     }
 
     public async Task<bool> AddList(List<TransactionRecurringRequest> list)
     {
-        var transactionList = new List<Transaction>();
+        var transactionList = new List<TransactionRecurring>();
         foreach (var transaction in list)
         {
             transactionList.Add(transaction.ToEntity());
@@ -71,5 +73,10 @@ public class TransactionRecurringService : ITransactionRecurringService
             transactionResponseList.Add(transaction.ToModel());
         }
         return transactionResponseList;
+    }
+
+    public async Task<bool> DeleteBulk(List<int> listTransaction)
+    {
+        return await _transactionRecurringRepository.BulkDelete(listTransaction);
     }
 }

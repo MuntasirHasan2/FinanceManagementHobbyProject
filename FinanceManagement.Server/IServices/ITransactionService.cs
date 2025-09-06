@@ -10,5 +10,6 @@ public interface ITransactionService
     Task<bool> DeleteById(int id);
     Task<bool> UpdateAsync(TransactionRequest request);
     Task<bool> AddList(List<TransactionRequest> list);
-    Task<List<TransactionResponse>> ListAll();
+    Task<List<TransactionResponse>> ListAllAsync();
+    Task<bool> DeleteBulk(List<int> listTransaction);
 }

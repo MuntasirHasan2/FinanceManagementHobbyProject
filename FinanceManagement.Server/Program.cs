@@ -16,6 +16,15 @@ builder.Services.AddControllers(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+
+builder.Services.AddScoped<ITransactionRecurringService, TransactionRecurringService>();
+builder.Services.AddScoped<ITransactionRecurringRepository, TransactionRecurringRepository>();
+
 builder.Services.AddOpenApi();
 //builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();

@@ -11,4 +11,5 @@ public interface ITransactionRepository
     Task<List<Transaction>?> ListByUserIdAsync(int id);
     Task<bool> AddList(List<Transaction> list);
     Task<List<Transaction>> ListAll();
+    Task<bool> BulkDelete(List<int> listTransaction);
 }

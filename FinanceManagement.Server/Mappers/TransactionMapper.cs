@@ -1,7 +1,7 @@
 using FinanceManagement.Server.Models;
 using FinanceManagement.Server.Entities;
 
-namespace FinanceManagement.Server.Models;
+namespace FinanceManagement.Server.Mappers;
 
 public static class TransactionMapper
 {

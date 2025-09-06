@@ -6,6 +6,7 @@ using System.Data;
 using System.Net.Http;
 using System.Text.Json;
 using FinanceManagement.Server.Entities;
+using FinanceManagement.Server.IServices;
 
 namespace FinanceManagement.Server.Controllers;
 
@@ -26,32 +27,32 @@ public class TransactionController : Controller
     [HttpGet("List")]
     public async Task<IActionResult> GetAsync()
     {
-        return await _transactionService.ListAllAsync();
+        return Ok(await _transactionService.ListAllAsync());
     }
 
     [Route("ListTransactionRecurring")]
     [HttpGet]
     public async Task<IActionResult> GetAllTransaction()
     {
-        return _transactionRecurringService.ListAllAsync();
+        return Ok(await _transactionRecurringService.ListAllAsync());
     }
 
-    [Route("GetTransaction")]
-    [HttpPost]
+    [Route("Get")]
+    [HttpGet]
     public async Task<IActionResult> GetTransaction(int userId)
     {
-        return await _transactionService.GetByUserIdAsync(userId);
+        return Ok(await _transactionService.GetByUserIdAsync(userId));
     }
 
-    [Route("GetTransactionRecurring")]
+    [Route("GetRecurring")]
     [HttpPost]
     public async Task<IActionResult> GetTransactionRecurring(int id)
     {
-        return await _transactionRecurringService.GetByUserIdAsync(id);
+        return Ok(await _transactionRecurringService.GetByUserIdAsync(id));
     }
 
-    [HttpPost("AddBulkTransaction")]
-    public async Task<IActionResult> BulkRequestTransaction(List<TransactionRequest> listTransaction, List<TransactionRecurringRequest> listTransactionRecurring)
+    [HttpPost("AddBulk")]
+    public async Task<IActionResult> BulkRequestTransaction(List<TransactionRequest> listTransaction)
     {
         if (await _transactionService.AddList(listTransaction))
         {
@@ -60,14 +61,34 @@ public class TransactionController : Controller
         return BadRequest("Error while Adding Transaction!");
     }
 
-    [HttpPost("AddBulkTransactionRecurring")]
-    public async Task<IActionResult> BulkRequestTransaction(List<TransactionRequest> listTransaction, List<TransactionRecurringRequest> listTransactionRecurring)
+    [HttpPost("AddRecurring")]
+    public async Task<IActionResult> BulkRequestTransaction(List<TransactionRecurringRequest> listTransactionRecurring)
     {
         if (await _transactionRecurringService.AddList(listTransactionRecurring))
         {
             return Created();
         }
-        return BadRequest("Error while Adding Transaction Recurring");
+        return BadRequest("Error while Adding Transaction Recurring!");
+    }
+
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        if (await _transactionService.DeleteById(id))
+        {
+            return NoContent();
+        }
+        return BadRequest("Error while deleting transactions!");
+    }
+
+    [HttpDelete("BulkDelete")]
+    public async Task<IActionResult> DeleteBulk(List<int> listTransaction)
+    {
+        if (await _transactionService.DeleteBulk(listTransaction))
+        {
+            return NoContent();
+        }
+        return BadRequest("Error while deleting transactions!");
     }
 
 
