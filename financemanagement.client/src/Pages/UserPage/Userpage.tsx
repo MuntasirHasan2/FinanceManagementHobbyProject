@@ -30,14 +30,6 @@ export default function User() {
         
     }, [])
 
-    //let data3 = [
-    //    ["Task", "Hours per Day"],
-    //    ["Work", 9],
-    //    ["Eat", 2],
-    //    ["Commute", 2],
-    //    ["Watch TV", 2],
-    //    ["Sleep", 7],
-    //];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let options: any;
 
@@ -188,8 +180,6 @@ export default function User() {
                     const transaction_category: string = data[i].category;
                     const transaction_description: string = data[i].description;
                     const transaction_amount: number = data[i].amount;
-                    //const transaction_recurring_type: string = data[i].recurring_type;
-                    //const transaction_occorance_type: string = data[i].occorance_type;
                     const transaction_month: number = data[i].month;
                     const transaction_year: number = data[i].year;
 
@@ -224,14 +214,11 @@ export default function User() {
 
         try {
             const response = await fetch(url_recurring, {
-                //mode: 'no-cors',
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                //body: formData,
                 body: JSON.stringify(bodyData),
             }
             );
-            //const data = response.json();
             if (response.ok) {
                 const response_data = await response.json();
 
@@ -245,10 +232,6 @@ export default function User() {
                     const transaction_category: string = response_data[i].category;
                     const transaction_description: string = response_data[i].description;
                     const transaction_amount: number = response_data[i].amount;
-                    //const transaction_recurring_type: string = data[i].recurring_type;
-                    //const transaction_occorance_type: string = data[i].occorance_type;
-
-
 
                     const temp_transaction_obj: expenses_data = {
                         transaction_id: transaction_id,
