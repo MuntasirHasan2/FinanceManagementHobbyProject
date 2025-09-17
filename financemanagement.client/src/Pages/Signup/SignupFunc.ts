@@ -1,4 +1,3 @@
-import { validateHeaderValue } from "node:http";
 
 export function Verification(email : string, username : string, password : string) : boolean
 {

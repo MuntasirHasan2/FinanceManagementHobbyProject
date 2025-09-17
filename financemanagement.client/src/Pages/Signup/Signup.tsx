@@ -1,15 +1,15 @@
-import { useState } from "react";
 import './Signup.css';
 import { FaSackDollar } from "react-icons/fa6";
 import SignupImageSVG from '../../Components/SignupComponent/SignupBackgroundImageSVG/SignupImageSVG';
-import SubmitErrorToast from '../../Components/SignupComponent/SubmitErrorToast';
-import SubmittingToast from '../../Components/SignupComponent/SubmittingToast';
+
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router';
 import { writeStorage } from '@rehooks/local-storage';
 
 import type { LoginRequest, LoginResponse, SignupRequest } from '../../types/AuthenticationType';
 import * as Verification from "./SignupFunc";
+import SignupError from "../../Components/SignupErrors/SignupError";
+import SignupForm from "../../Components/SignupComponent/SignupForm/SignupForm";
 
 type props = {
     isLoggedIn: boolean;
@@ -17,14 +17,19 @@ type props = {
 }
 export default function Signup({ isLoggedIn, setIsLoggedIn }: props) {
 
-    const [isSignInActive, setIsSignInActive] = useState(true);
-
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    function setCookie(data: LoginResponse) {
+    function UpdateInputSignup(username1 : string, email1 : string, password1 :string)
+    {
+        createAccount(username1, email1, password1);
+    }
+
+    function UpdateInputLogin(email1 : string, password1 :string)
+    {
+        Login(email1, password1);
+    }
+    function setCookie(data: LoginResponse) 
+    {
         const cookies = new Cookies();
         cookies.set('userid', data.UserId, { path: '/' });
         cookies.set('username', data.Username, { path: '/' });
@@ -35,8 +40,13 @@ export default function Signup({ isLoggedIn, setIsLoggedIn }: props) {
         navigate("/userpage");
     }
 
-    async function Login(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
+    async function Login(email : string , password : string) {
+        let x : number = 0;
+       // event.preventDefault();
+       console.log("Email 2 : ", email);
+       console.log("Password : ", password);
+        if(x == 0)
+            return;
         if (!Verification.LogInVerification(email, password)) {
             return;
         }
@@ -49,10 +59,8 @@ export default function Signup({ isLoggedIn, setIsLoggedIn }: props) {
         }
         try {
             const response = await fetch(url, {
-                //mode: 'no-cors',
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                //body: formData,
                 body: JSON.stringify(loginData),
             }
             );
@@ -76,14 +84,14 @@ export default function Signup({ isLoggedIn, setIsLoggedIn }: props) {
                 console.log("not ok");
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            console.log("Error :", error.message);
+        } catch (error: unknown) {
+            if(error instanceof Error)
+                console.log("Error :", error.message);
         }
 
     }
 
-    async function createAccount(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
+    async function createAccount(username1 : string, email1 : string, password1 :  string) {
 
         const submitted_toast = document.getElementById("submitted_toast");
         if (submitted_toast) {
@@ -102,7 +110,7 @@ export default function Signup({ isLoggedIn, setIsLoggedIn }: props) {
             }, 3000)
         }
 
-        if (!Verification.Verification(email, username, password)) {
+        if (!Verification.Verification(email1, username1, password1)) {
             return;
         }
 
@@ -111,9 +119,9 @@ export default function Signup({ isLoggedIn, setIsLoggedIn }: props) {
         try {
 
             const loginData: SignupRequest = {
-                Username: username,
-                Email: email,
-                Password: password,
+                Username: username1,
+                Email: email1,
+                Password: password1,
             }
             const response = await fetch(url, {
                 method: "POST",
@@ -152,37 +160,15 @@ export default function Signup({ isLoggedIn, setIsLoggedIn }: props) {
     return (
         <>
             <div className="signup-container">
-
-
                 <div className="container">
                     <div
                         className="Errors"
                     >
-                        <div
-                            className="Errors-list">
-
-                            <div className="mail-exist" id="submitted_toast">
-                                <SubmittingToast />
-                            </div>
-                            <div className="mail-exist" id="mail_exist">
-                                <SubmitErrorToast message={"Email already exists!!!!"} />
-                            </div>
-                            <div className="mail-exist" id="Field_empty_error">
-                                <SubmitErrorToast message={"Fill in all fields"} />
-                            </div>
-                            <div className="mail-exist" id="invalid_mail_format_toast">
-                                <SubmitErrorToast message={"Invalid email format!"} />
-                            </div>
-                            <div className="mail-exist" id="invalid_mail_credential">
-                                <SubmitErrorToast message={"Email and password does not match"} />
-                            </div>
-                        </div>
+                        <SignupError/>
                     </div>
 
                     <div
                         className="form-signup">
-
-
                         <div
                             className="panel"
                             style={{ borderRadius: '10px 0 0 10px' }}>
@@ -206,130 +192,20 @@ export default function Signup({ isLoggedIn, setIsLoggedIn }: props) {
                                 </div>
                                 <div
                                     className="panel-icon">
-
                                     <div>
                                         <SignupImageSVG />
-                                        {/*    <IoBarChartSharp />*/}
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
-
-
-
                         <div
                             className="form-content" style={{ borderRadius: '0 10px 10px 0' }}>
-                            <div className="form-container" >
-                                <div
-                                    className="signin-decision">
-                                    <div className={isSignInActive ? "active-signin" : ""}
-                                        onClick={() => setIsSignInActive(!isSignInActive)}
-                                    >
-                                        Sign In
-                                    </div>
-                                    or
-                                    <div className={isSignInActive ? "" : "active-signin"}
-                                        onClick={() => setIsSignInActive(!isSignInActive)}>
-                                        Sign Up
-                                    </div>
-                                </div>
 
-
-                                <div
-                                    className="form-fields">
-                                    <form
-                                        method="get" onSubmit={Login}
-                                        className={isSignInActive ? "signincontainer active" : "signincontainer"}
-                                        id="signin"
-                                    >
-
-
-                                        <div>
-                                            <div className="label">
-                                                <label htmlFor="email">Email</label>
-                                            </div>
-                                            <div>
-                                                <input type="text" name="email" value={email} placeholder="Enter your email" autoComplete="false"
-                                                    onChange={(e) => setEmail(e.target.value)} />
-                                            </div>
-                                            <span className="email_format_error" id="email_format_error">Invalid email</span>
-                                        </div>
-
-                                        <div>
-                                            <div className="label">
-                                                <label htmlFor="password">Password</label>
-                                            </div>
-                                            <input type="password" name="password" value={password} placeholder="Enter your Password" autoComplete="false"
-                                                onChange={(e) => setPassword(e.target.value)} />
-                                        </div>
-                                        <div
-                                            className="signup-loginmember">
-                                            <button type="submit" id="signin-btn">Sign In</button>
-                                            <div
-                                                className="login-member"
-                                                onClick={() => setIsSignInActive(!isSignInActive)}                                        >
-                                                I don't have an account
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <form
-                                        method="post" onSubmit={createAccount}
-                                        className={isSignInActive ? "signincontainer" : "signincontainer active"}
-                                    >
-                                        <div>
-                                            <div className="label">
-                                                <label htmlFor="username">FULL NAME</label>
-                                            </div>
-                                            <input type="text" name="username" value={username} placeholder="Enter your full name" autoComplete="false"
-                                                onChange={(e) => setUsername(e.target.value)} />
-                                        </div>
-
-                                        <div>
-                                            <div className="label">
-                                                <label htmlFor="email">Email</label>
-                                            </div>
-                                            <div>
-                                                <input type="text" name="email" value={email} placeholder="Enter your email" autoComplete="false"
-                                                    onChange={(e) => setEmail(e.target.value)} />
-                                            </div>
-
-                                            <span
-                                                className="email_format_error"
-                                                id="signup_email_format_error">Invalid email format</span>
-
-                                        </div>
-
-                                        <div>
-                                            <div className="label">
-                                                <label htmlFor="password">Password</label>
-                                            </div>
-                                            <input type="password" name="password" value={password} placeholder="Enter your Password" autoComplete="false"
-                                                onChange={(e) => setPassword(e.target.value)} />
-                                        </div>
-                                        <div
-                                            className="signup-loginmember">
-                                            <button type="submit"
-                                                id="signup-btn">Sign up</button>
-                                            <div
-                                                className="login-member"
-                                                onClick={() => setIsSignInActive(!isSignInActive)}                                        >
-                                                I'm already a member
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-
-
-
+                            <SignupForm 
+                            sendInputDataLogin = {UpdateInputLogin} 
+                            sendInputDataSignup={UpdateInputSignup}/> 
 
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
