@@ -61,7 +61,7 @@ public class TransactionController : Controller
         return BadRequest("Error while Adding Transaction!");
     }
 
-    [HttpPost("AddRecurring")]
+    [HttpPost("AddBulkRecurring")]
     public async Task<IActionResult> BulkRequestTransaction(List<TransactionRecurringRequest> listTransactionRecurring)
     {
         if (await _transactionRecurringService.AddList(listTransactionRecurring))
@@ -89,6 +89,16 @@ public class TransactionController : Controller
             return NoContent();
         }
         return BadRequest("Error while deleting transactions!");
+    }
+
+    [HttpDelete("BulkRecurringDelete")]
+    public async Task<IActionResult> DeleteRecurringBulk(list<int> listTransaction)
+    {
+        if (await _transactionRecurringService.DeleteBulk(listTransaction))
+        {
+            return NoContent();
+        }
+        return BadRequest("Error while Deleting Recurring Transactions!");
     }
 
 

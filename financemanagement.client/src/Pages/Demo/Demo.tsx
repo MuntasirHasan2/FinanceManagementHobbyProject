@@ -143,10 +143,6 @@ export default function Demo() {
             const transaction_category: string = response_data[i].category;
             const transaction_description: string = response_data[i].description;
             const transaction_amount: number = response_data[i].amount;
-            //const transaction_recurring_type: string = data[i].recurring_type;
-            //const transaction_occorance_type: string = data[i].occorance_type;
-
-
 
             const temp_transaction_obj: TransactionRequest = {
                 Id: transaction_id,
@@ -240,9 +236,7 @@ export default function Demo() {
                         console.log("index : ", indexToRemove)
 
                     }
-
                 }
-
             }
             allData.splice(indexToRemove, 1);
             setAllData([...allData]);
@@ -275,7 +269,6 @@ export default function Demo() {
             const updatedExpense = [...recurringExpense.slice(0, i), ...recurringExpense.slice(i + 1)];
             setRecurringExpense(updatedExpense);
         }
-
     }
 
 
@@ -301,13 +294,10 @@ export default function Demo() {
                 console.log(temp_amount);
                 removeFromPieChart(temp_category_name, temp_amount);
             }
-            console.log("index : ", i);
-
             const updatedExpense = [...expense.slice(0, i), ...expense.slice(i + 1)];
             setExpense(updatedExpense);
             console.log("expense : ", updatedExpense);
         }
-
     }
 
     function removeExponseMobileRecurring(index: string, event: React.MouseEvent<HTMLElement>) {
